@@ -480,7 +480,7 @@
 									"containerExtending": false,
 									"left": 696,
 									"top": 37,
-									"width": 188.1708984375,
+									"width": 205.54443359375,
 									"height": 13,
 									"autoResize": false,
 									"underline": false,
@@ -519,7 +519,7 @@
 											"containerExtending": false,
 											"left": 701,
 											"top": 60,
-											"width": 178.1708984375,
+											"width": 195.54443359375,
 											"height": 13,
 											"autoResize": false
 										},
@@ -543,7 +543,7 @@
 											"containerExtending": false,
 											"left": 701,
 											"top": 75,
-											"width": 178.1708984375,
+											"width": 195.54443359375,
 											"height": 13,
 											"autoResize": false
 										}
@@ -559,7 +559,7 @@
 									"containerExtending": false,
 									"left": 696,
 									"top": 55,
-									"width": 188.1708984375,
+									"width": 205.54443359375,
 									"height": 38,
 									"autoResize": false
 								}
@@ -575,7 +575,7 @@
 							"containerExtending": false,
 							"left": 696,
 							"top": 32,
-							"width": 188.1708984375,
+							"width": 205.54443359375,
 							"height": 61,
 							"autoResize": false,
 							"nameLabel": {
@@ -4509,8 +4509,8 @@
 								"$ref": "AAAAAAFmGv/y71LcRTk="
 							},
 							"name": "Description",
-							"type": "VARCHAR",
-							"length": "256",
+							"type": "TEXT",
+							"length": 0,
 							"primaryKey": false,
 							"foreignKey": false,
 							"nullable": true,
@@ -4783,7 +4783,8 @@
 							"_parent": {
 								"$ref": "AAAAAAFmGwy2T1OBcgo="
 							},
-							"name": "Produit",
+							"name": "Référence",
+							"length": 0,
 							"primaryKey": false,
 							"foreignKey": true,
 							"nullable": false,
@@ -4918,7 +4919,8 @@
 							"_parent": {
 								"$ref": "AAAAAAFmGw0lUlOex6Y="
 							},
-							"name": "Produit",
+							"name": "Référence",
+							"length": 0,
 							"primaryKey": false,
 							"foreignKey": true,
 							"nullable": false,
@@ -5356,7 +5358,8 @@
 							"_parent": {
 								"$ref": "AAAAAAFmGw/7slPpHpo="
 							},
-							"name": "Produit",
+							"name": "Référence",
+							"length": 0,
 							"primaryKey": true,
 							"foreignKey": true,
 							"nullable": false,
