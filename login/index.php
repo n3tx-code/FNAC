@@ -1,19 +1,22 @@
-// test si user connected redirect to home
+<!DOCTYPE html>
+<html>
 
-<?php
+<head>
+    <meta charset="UTF-8">
+</head>
 
-if($_POST['validation_form'])
-{
-    include("script_connexion.php");
-}
-else
-{
-    ?>
-        formulaire en php
+<body>
 
-    <?php
-}
+<form action="connexion.php" method="post">
+    <label>User :
+        <input type="text" name="user" required>
+    </label>
+    <label>Password :
+        <input type="password" name="password" required>
+    </label>
+    <input type="submit" value="Connexion" name="validation">
+</form>
 
-// script_connexion.php
+</body>
 
-    test si envoie en post avec la variable de validation du form
+</html>
