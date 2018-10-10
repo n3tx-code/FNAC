@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le :  jeu. 04 oct. 2018 à 15:30
--- Version du serveur :  10.1.31-MariaDB
--- Version de PHP :  7.2.4
+-- Client :  127.0.0.1
+-- Généré le :  Mer 10 Octobre 2018 à 14:35
+-- Version du serveur :  5.7.14
+-- Version de PHP :  7.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `fnac`
+-- Base de données :  `fnec`
 --
 
 -- --------------------------------------------------------
@@ -29,6 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `address` (
+  `id` int(11) NOT NULL,
   `client` int(11) NOT NULL,
   `number` varchar(256) NOT NULL,
   `street` varchar(256) NOT NULL,
@@ -75,7 +74,7 @@ CREATE TABLE `command` (
   `id` int(11) NOT NULL,
   `client` int(11) NOT NULL,
   `date` date NOT NULL,
-  `price` int(11) NOT NULL
+  `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -87,8 +86,8 @@ CREATE TABLE `command` (
 CREATE TABLE `delivery` (
   `command` int(11) NOT NULL,
   `address` int(11) NOT NULL,
-  `date` int(11) NOT NULL,
-  `state` int(11) NOT NULL
+  `date` date NOT NULL,
+  `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -98,7 +97,7 @@ CREATE TABLE `delivery` (
 --
 
 CREATE TABLE `fidelity_card` (
-  `number` int(11) NOT NULL,
+  `fc_number` int(11) NOT NULL,
   `points` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -157,7 +156,7 @@ CREATE TABLE `product` (
 --
 
 CREATE TABLE `promo` (
-  `ref` int(11) NOT NULL,
+  `reference` int(11) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `percentage` smallint(6) NOT NULL
@@ -176,7 +175,7 @@ CREATE TABLE `reference` (
   `ref_product` varchar(256) NOT NULL,
   `name` varchar(256) NOT NULL,
   `descripion` text NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` float NOT NULL,
   `add_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -187,8 +186,8 @@ CREATE TABLE `reference` (
 --
 
 CREATE TABLE `shop` (
-  `reference` varchar(64) NOT NULL,
-  `number` int(11) NOT NULL,
+  `identifiant` varchar(255) NOT NULL,
+  `street_number` int(11) NOT NULL,
   `street` varchar(256) NOT NULL,
   `city` varchar(256) NOT NULL,
   `zip_code` int(11) NOT NULL
@@ -201,50 +200,68 @@ CREATE TABLE `shop` (
 --
 
 CREATE TABLE `stock` (
-  `shop` int(11) NOT NULL,
-  `product` int(11) NOT NULL,
+  `shop` varchar(255) NOT NULL,
+  `reference` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Index pour les tables déchargées
+-- Index pour les tables exportées
 --
+
+--
+-- Index pour la table `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client` (`client`);
 
 --
 -- Index pour la table `category`
 --
 ALTER TABLE `category`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parent` (`parent`);
 
 --
 -- Index pour la table `client`
 --
 ALTER TABLE `client`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fidelity_card` (`fidelity_card`);
 
 --
 -- Index pour la table `command`
 --
 ALTER TABLE `command`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client` (`client`);
 
 --
 -- Index pour la table `delivery`
 --
 ALTER TABLE `delivery`
-  ADD PRIMARY KEY (`command`);
+  ADD PRIMARY KEY (`command`),
+  ADD KEY `address` (`address`);
 
 --
 -- Index pour la table `fidelity_card`
 --
 ALTER TABLE `fidelity_card`
-  ADD PRIMARY KEY (`number`);
+  ADD PRIMARY KEY (`fc_number`);
+
+--
+-- Index pour la table `image`
+--
+ALTER TABLE `image`
+  ADD KEY `reference` (`reference`);
 
 --
 -- Index pour la table `opinion`
 --
 ALTER TABLE `opinion`
-  ADD PRIMARY KEY (`client`,`reference`);
+  ADD PRIMARY KEY (`client`,`reference`),
+  ADD KEY `reference` (`reference`);
 
 --
 -- Index pour la table `partner`
@@ -256,26 +273,122 @@ ALTER TABLE `partner`
 -- Index pour la table `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`reference`,`command`);
+  ADD PRIMARY KEY (`reference`,`command`),
+  ADD KEY `command` (`command`);
+
+--
+-- Index pour la table `promo`
+--
+ALTER TABLE `promo`
+  ADD KEY `reference` (`reference`);
 
 --
 -- Index pour la table `reference`
 --
 ALTER TABLE `reference`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category` (`category`),
+  ADD KEY `partner` (`partner`);
 
 --
 -- Index pour la table `shop`
 --
 ALTER TABLE `shop`
-  ADD PRIMARY KEY (`reference`);
+  ADD PRIMARY KEY (`identifiant`);
 
 --
 -- Index pour la table `stock`
 --
 ALTER TABLE `stock`
-  ADD PRIMARY KEY (`shop`,`product`);
-COMMIT;
+  ADD PRIMARY KEY (`shop`,`reference`),
+  ADD KEY `reference` (`reference`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `address`
+--
+ALTER TABLE `address`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `address`
+--
+ALTER TABLE `address`
+  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`);
+
+--
+-- Contraintes pour la table `category`
+--
+ALTER TABLE `category`
+  ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `category` (`id`);
+
+--
+-- Contraintes pour la table `client`
+--
+ALTER TABLE `client`
+  ADD CONSTRAINT `client_ibfk_1` FOREIGN KEY (`fidelity_card`) REFERENCES `fidelity_card` (`fc_number`);
+
+--
+-- Contraintes pour la table `command`
+--
+ALTER TABLE `command`
+  ADD CONSTRAINT `command_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`);
+
+--
+-- Contraintes pour la table `delivery`
+--
+ALTER TABLE `delivery`
+  ADD CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`command`) REFERENCES `command` (`id`),
+  ADD CONSTRAINT `delivery_ibfk_2` FOREIGN KEY (`command`) REFERENCES `command` (`id`),
+  ADD CONSTRAINT `delivery_ibfk_3` FOREIGN KEY (`command`) REFERENCES `command` (`id`),
+  ADD CONSTRAINT `delivery_ibfk_4` FOREIGN KEY (`command`) REFERENCES `command` (`id`),
+  ADD CONSTRAINT `delivery_ibfk_5` FOREIGN KEY (`address`) REFERENCES `address` (`id`);
+
+--
+-- Contraintes pour la table `image`
+--
+ALTER TABLE `image`
+  ADD CONSTRAINT `image_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`);
+
+--
+-- Contraintes pour la table `opinion`
+--
+ALTER TABLE `opinion`
+  ADD CONSTRAINT `opinion_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`),
+  ADD CONSTRAINT `opinion_ibfk_2` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`);
+
+--
+-- Contraintes pour la table `product`
+--
+ALTER TABLE `product`
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`),
+  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`command`) REFERENCES `command` (`id`);
+
+--
+-- Contraintes pour la table `promo`
+--
+ALTER TABLE `promo`
+  ADD CONSTRAINT `promo_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`);
+
+--
+-- Contraintes pour la table `reference`
+--
+ALTER TABLE `reference`
+  ADD CONSTRAINT `reference_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`id`),
+  ADD CONSTRAINT `reference_ibfk_2` FOREIGN KEY (`partner`) REFERENCES `partner` (`id`);
+
+--
+-- Contraintes pour la table `stock`
+--
+ALTER TABLE `stock`
+  ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`),
+  ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`shop`) REFERENCES `shop` (`identifiant`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
