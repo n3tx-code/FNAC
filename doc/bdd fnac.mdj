@@ -138,6 +138,30 @@
 											"width": 217.18994140625,
 											"height": 13,
 											"autoResize": false
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAFmYcxj0Yf635s=",
+											"_parent": {
+												"$ref": "AAAAAAFmGv/y8FLg/GY="
+											},
+											"model": {
+												"$ref": "AAAAAAFmYcxjpof3WqY="
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 109,
+											"top": 113,
+											"width": 217.18994140625,
+											"height": 13,
+											"autoResize": false
 										}
 									],
 									"visible": true,
@@ -152,7 +176,7 @@
 									"left": 104,
 									"top": 63,
 									"width": 227.18994140625,
-									"height": 53,
+									"height": 68,
 									"autoResize": false
 								}
 							],
@@ -168,7 +192,7 @@
 							"left": 104,
 							"top": 40,
 							"width": 227.18994140625,
-							"height": 76,
+							"height": 91,
 							"autoResize": false,
 							"nameLabel": {
 								"$ref": "AAAAAAFmGv/y8FLfxuw="
@@ -4538,6 +4562,20 @@
 							"primaryKey": false,
 							"foreignKey": false,
 							"nullable": true,
+							"unique": false
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAFmYcxjpof3WqY=",
+							"_parent": {
+								"$ref": "AAAAAAFmGv/y71LcRTk="
+							},
+							"name": "Nom",
+							"type": "VARCHAR",
+							"length": "256",
+							"primaryKey": false,
+							"foreignKey": false,
+							"nullable": false,
 							"unique": false
 						}
 					]
