@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
--- Client :  127.0.0.1
--- Généré le :  Mer 10 Octobre 2018 à 14:35
--- Version du serveur :  5.7.14
--- Version de PHP :  7.0.10
+-- Hôte : 127.0.0.1
+-- Généré le :  jeu. 11 oct. 2018 à 10:17
+-- Version du serveur :  10.1.31-MariaDB
+-- Version de PHP :  7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -44,9 +46,19 @@ CREATE TABLE `address` (
 
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
+  `name` varchar(256) NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `category`
+--
+
+INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
+(0, 'Informatique', NULL, 'L\'info c\'est bien'),
+(1, 'Jeux video', 0, 'JOUER'),
+(2, 'adadaad', 1, 'JOUER');
 
 -- --------------------------------------------------------
 
@@ -138,6 +150,13 @@ CREATE TABLE `partner` (
   `website` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `partner`
+--
+
+INSERT INTO `partner` (`id`, `name`, `description`, `website`) VALUES
+(0, 'Nils', 'Il est beau', 'http://vaede.com');
+
 -- --------------------------------------------------------
 
 --
@@ -174,10 +193,17 @@ CREATE TABLE `reference` (
   `partner` int(11) DEFAULT NULL,
   `ref_product` varchar(256) NOT NULL,
   `name` varchar(256) NOT NULL,
-  `descripion` text NOT NULL,
+  `description` text NOT NULL,
   `price` float NOT NULL,
-  `add_date` date NOT NULL
+  `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `reference`
+--
+
+INSERT INTO `reference` (`id`, `category`, `partner`, `ref_product`, `name`, `description`, `price`, `add_date`) VALUES
+(0, 0, NULL, '1', 'AHAHAH', 'azda', 56, '2018-10-11 10:16:09');
 
 -- --------------------------------------------------------
 
@@ -206,7 +232,7 @@ CREATE TABLE `stock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Index pour les tables exportées
+-- Index pour les tables déchargées
 --
 
 --
@@ -304,7 +330,7 @@ ALTER TABLE `stock`
   ADD KEY `reference` (`reference`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
@@ -312,8 +338,9 @@ ALTER TABLE `stock`
 --
 ALTER TABLE `address`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables déchargées
 --
 
 --
@@ -389,6 +416,7 @@ ALTER TABLE `reference`
 ALTER TABLE `stock`
   ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`),
   ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`shop`) REFERENCES `shop` (`identifiant`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
