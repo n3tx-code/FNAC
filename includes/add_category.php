@@ -7,15 +7,21 @@ if(!isset($_POST['submit']) OR empty($_POST['submit']))
     header('location: ../test.php');
 }
 
-$sql = 'SELECT COUNT(*) FROM partner';
+$sql = 'SELECT COUNT(*) FROM category';
 $result = $bdd->query($sql);
+$id = $result->fetchColumn();
 
-$id = $result->fetchColumn(0);
 $name = $_POST['name'];
-$parent = ""; //?
-$description = $_POST['description'];
 
-$sql = "";
+$parent = null;
+if(isset($_POST['parent']))
+    $parent = $_POST['parent'];
+
+$description = null;
+if(isset($_POST['description']) AND !empty($_POST['description']))
+    $description = $_POST['description'];
+
+$sql = 'INSERT INTO category(id, name, parent, description) VALUES(:id, :name, :parent, :description)';
 
 $req = $bdd->prepare($sql);
 $req->execute(array(
@@ -24,5 +30,7 @@ $req->execute(array(
    'parent' => $parent,
    'description' => $description
 ));
+
+echo "Successfully added !";
 
 ?>

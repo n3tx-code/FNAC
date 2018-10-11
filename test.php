@@ -12,6 +12,7 @@
 </head>
 <body>
 
+    <h2>Ajout produit :</h2>
 	<form action="includes/add_product.php" method="post">
 		<label>Nom :
 			<input type="text" name="name" required>
@@ -33,12 +34,11 @@
 		</label><br>
 		<label>Catégorie :
 			<select name="category" required>
-                <option value=""></option>
 				<?php
-					$sql = 'SELECT name FROM category';
+					$sql = 'SELECT id, name FROM category';
 					foreach ($bdd->query($sql) as $row)
 					{
-                        echo '<option value="'.$row['name'].'">'.$row['name'].'</option>';
+                        echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
 					}
 				?>
 			</select>
@@ -50,7 +50,7 @@
 			<input type="number" name="price" required>
 		</label><br>
 		<label>Promo :
-			<input type="number" name="promo" required>
+			<input type="number" name="promo">
 		</label><br>
 		<label>
 			<input type="submit" name="submit" value="Add product">
@@ -59,6 +59,7 @@
 
 	<br><br>
 
+    <h2>Ajout categorie :</h2>
 	<form action="includes/add_category.php" method="post">
 		<label>Nom :
 			<input type="text" name="name" required>
@@ -67,13 +68,13 @@
 			<input type="text" name="description">
 		</label><br>
 		<label>Parent category
-			<select name="category">
+			<select name="parent">
                 <option value=""></option>
 				<?php
-                    $sql = 'SELECT name FROM category';
+                    $sql = 'SELECT id, name FROM category';
                     foreach ($bdd->query($sql) as $row)
                     {
-                        echo '<option value="'.$row['name'].'">'.$row['name'].'</option>';
+                        echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
                     }
 				?>
 			</select>
@@ -85,6 +86,7 @@
 
 	<br><br>
 
+    <h2>Ajout partenaire :</h2>
 	<form action="includes/add_partner.php" method="post">
 		<label>Nom :
 			<input type="text" name="name" required>
@@ -100,6 +102,32 @@
 		</label><br>
 	</form>
 
+    <h2>Ajout promo :</h2>
+    <form action="includes/add_promo.php" method="post">
+        <label>Rechercher :
+            <input type="text" name="reference" id="search_ref_promo" required>
+        </label><br>
+        <ul id="search_result"></ul>
+        <label>Date de début:
+            <input type="date" name="start_date" required>
+        </label><br>
+        <label>Date de fin :
+            <input type="date" name="end_date" required>
+        </label><br>
+        <label>Réduction (%) :
+            <input type="number" name="percentage" required>
+        </label><br>
+        <label>
+            <input type="submit" name="submit" value="Add promo">
+        </label><br>
+    </form>
+
 </body>
+
+<script src="js/search_ref.js"></script>
+
+<script>
+    search.init('search_ref_promo', 'search_result');
+</script>
 
 </html>
