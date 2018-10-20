@@ -16,7 +16,8 @@
 }
 .header-navbar
 {
-    margin-top: 10px;
+   
+    margin-bottom: 50px;
 }
 .nav-search
 {
@@ -58,3 +59,38 @@
     background-image: none;
     color : black;
 }
+.carousel-indicators li
+{
+    border : 1px solid #7c7c7c;
+}
+.btn-connexion, .btn-next-inscription, .btn-back-inscription, .btn-inscription{
+    padding: 9px;
+}
+
+.btn-connexion:hover, .btn-next-inscription:hover, .btn-inscription:hover
+{
+    color : white;
+    border : none;
+    background-color: #FFBE14;
+}
+.btn-next-inscription, .btn-inscription
+{
+    float: right;
+}
+.erreur, .good
+{
+    color : white;
+    padding: 5px;
+    margin : 10px;
+    border-radius: 2px;
+    text-align: center;
+    font-style: italic;
+}
+.erreur {
+    background: #cc3c3f;
+}
+.good
+{
+    background: #33cc42;
+}
+

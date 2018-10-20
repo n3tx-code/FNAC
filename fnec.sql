@@ -67,13 +67,14 @@ INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
 --
 
 CREATE TABLE `client` (
-  `id` int(11) NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `fidelity_card` int(11) DEFAULT NULL,
   `name` varchar(256) NOT NULL,
   `first_name` varchar(256) NOT NULL,
   `phone` int(11) NOT NULL,
   `mail` varchar(256) NOT NULL,
-  `password` varchar(256) NOT NULL
+  `password` varchar(256) NOT NULL,
+   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -253,7 +254,6 @@ ALTER TABLE `category`
 -- Index pour la table `client`
 --
 ALTER TABLE `client`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `fidelity_card` (`fidelity_card`);
 
 --
