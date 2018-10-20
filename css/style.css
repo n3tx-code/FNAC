@@ -1,0 +1,95 @@
+@font-face {
+    font-family: enMarche;
+    src: url("/fonts/GillSansMTPro-HeavyItalic.otf") format("opentype");
+}
+.stylish-input-group .input-group-addon{
+    background: white !important;
+}
+.stylish-input-group .form-control{
+    border-right:0;
+    box-shadow:0 0 0;
+    border-color:#ccc;
+}
+.stylish-input-group button{
+    border:0;
+    background:transparent;
+}
+.header-navbar
+{
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+.nav-search
+{
+    margin-top: 15px;
+}
+.nav-basket, .nav-user
+{
+    margin-top: 20px;
+    font-size: 20px;
+}
+.site-title, .site-second-title
+{
+    font-family: enMarche;
+}
+.site-second-title
+{
+    margin-top: -20px;
+}
+.categorie
+{
+    display: inline-block;
+    margin-top: 12px;
+    padding: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.categorie:hover
+{
+    text-shadow: 0 0 5px #cccccc;
+}
+.slider-img
+{
+    max-height:300px;
+    margin-left: auto;
+    margin-right: auto
+}
+.carousel-control.right, .carousel-control.left
+{
+    background-image: none;
+    color : black;
+}
+.carousel-indicators li
+{
+    border : 1px solid #7c7c7c;
+}
+.btn-connexion, .btn-next-inscription, .btn-back-inscription, .btn-inscription{
+    padding: 9px;
+}
+
+.btn-connexion:hover, .btn-next-inscription:hover, .btn-inscription:hover
+{
+    color : white;
+    border : none;
+    background-color: #FFBE14;
+}
+.btn-next-inscription, .btn-inscription
+{
+    float: right;
+}
+.erreur, .good
+{
+    color : white;
+    padding: 5px;
+    margin : 10px;
+    border-radius: 2px;
+    text-align: center;
+    font-style: italic;
+}
+.erreur {
+    background: #cc3c3f;
+}
+.good
+{
+    background: #33cc42;
+}
