@@ -7,6 +7,10 @@ if(isset($_SESSION['ID']))
 else {
     if(isset($_POST['Inscription']))
     {
+        include("../../includes/scripts/inscription.php");
+    }
+    elseif(isset($_POST['Connexion']))
+    {
         include("../../includes/scripts/connexion.php");
     }
 ?>
@@ -26,6 +30,15 @@ else {
                 <div class="row">
                     <div class="col-md-9 col-md-offset-1">
                         <h3 class="text-center">Connexion</h3>
+                        <?php
+                        if(isset($erreur_connexion)) {
+                            ?>
+                            <div class="erreur">
+                                <?= $erreur_connexion ?>
+                            </div>
+                            <?php
+                        }
+                        ?>
                         <form action="." method="post" id="login">
                             <div class="form-group">
                                 <label for="email">Email* :</label>
@@ -35,7 +48,7 @@ else {
                                 <label for="mdp">Mot de passe* :</label>
                                 <input type="password" class="form-control" id="mpd" name="mdp">
                             </div>
-                            <button type="submit" name="connexion" class="btn btn-default btn-connexion">Connexion
+                            <button type="submit" name="Connexion" class="btn btn-default btn-connexion">Connexion
                             </button>
                         </form>
                     </div>

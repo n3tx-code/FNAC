@@ -1,47 +1,32 @@
 <?php
-    include ("../../includes/bdd.php");
-    $client = [];
-    $client ['fidelity_card'] = null; // sera modifié si le client a rentré une carte de fidélité
-    if(!empty($_POST['email1']) AND !empty($_POST['mdp1'])
-        AND !empty($_POST['nom']) AND !empty($_POST['prenom'] AND !empty($_POST['tel']))
-        AND !empty($_POST['nom-prenom']) AND !empty($_POST['n-rue']) AND !empty($_POST['rue']) AND !empty($_POST['CP']) AND !empty($_POST['ville'])
-    ) {
 
-        if ($_POST['email1'] == $_POST['email2']) {
-            $client['mail'] = htmlspecialchars($_POST['email1']);
+    if(!empty($_POST['email']) OR !empty($_POST['mdp']))
+    {
+        include ("../../includes/bdd.php");
+        $mailconnect = htmlspecialchars($_POST['email']);
+        $mdpconnect = sha1(htmlspecialchars($_POST['mdp']));
+        $requser = $bdd->prepare("SELECT * FROM client WHERE mail = ? AND password = ?");
+        $requser-> execute(array($mailconnect, $mdpconnect));
+        $userexist = $requser->rowCount();
+        if($userexist == 1)
+        {
+            /* récupération des données de l'utilisateur qui vient de se connecter */
+            $userinfo = $requser->fetch();
+            $_SESSION['ID'] = $userinfo['id'];
+            $_SESSION['name'] = $userinfo['name'];
+            $_SESSION['first_name'] = $userinfo['first_name'];
 
-            if ($_POST['mdp1'] == $_POST['mdp2']) {
-                $client['mdp'] = sha1(htmlspecialchars($_POST['mdp1']));
-
-                $client['name'] = htmlspecialchars($_POST['nom']);
-                $client['first_name'] = htmlspecialchars($_POST['prenom']);
-                $client['phone'] = htmlspecialchars($_POST['tel']);
-
-                if (!empty($_POST['carte-fidelite'])) {
-                    $client['fidelity_card'] = $_POST['carte-fidelite'];
-                }
-
-                // création client
-                $req_add_client = $bdd->prepare("INSERT INTO client
-                (fidelity_card, name, first_name, phone, mail, password)
-                VALUES(?, ?, ?, ?, ?, ?)");
-                $req_add_client->execute(array($client['fidelity_card'], $client['name'], $client['first_name'],
-                    $client['phone'], $client['mail'], $client['mdp']));
-
-                // ajout adresse
-                $address = [];
-
-
-
-            } else {
-                $erreur_inscripiption = "Mot de passe différents";
-            }
-        } else {
-            $erreur_inscripiption = "Adresse mail différentes";
+            header("Location: ../");
+        }
+        else
+        {
+            $erreur_connexion = "Mauvais mail ou mauvais mot de passe !";
         }
     }
     else
     {
-        $erreur_inscripiption = "Merci de remplir tous les champs avec une astérisque";
+        $erreur_connexion = "Tout les champs doivent être complétés !";
     }
+
+
 ?>
