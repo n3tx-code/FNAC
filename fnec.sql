@@ -45,7 +45,7 @@ CREATE TABLE `address` (
 --
 
 CREATE TABLE `category` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL  ,
   `name` varchar(256) NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `description` text
@@ -67,7 +67,7 @@ INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
 --
 
 CREATE TABLE `client` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT NOT NULL  ,
   `fidelity_card` int(11) DEFAULT NULL,
   `name` varchar(256) NOT NULL,
   `first_name` varchar(256) NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE `client` (
 --
 
 CREATE TABLE `command` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL  ,
   `client` int(11) NOT NULL,
   `date` date NOT NULL,
   `price` float NOT NULL
@@ -156,7 +156,7 @@ CREATE TABLE `partner` (
 --
 
 INSERT INTO `partner` (`id`, `name`, `description`, `website`) VALUES
-(0, 'Nils', 'Il est beau', 'http://vaede.com');
+(1, 'Nils', 'Il est beau', 'http://vaede.com');
 
 -- --------------------------------------------------------
 
@@ -204,7 +204,7 @@ CREATE TABLE `reference` (
 --
 
 INSERT INTO `reference` (`id`, `category`, `partner`, `ref_product`, `name`, `description`, `price`, `add_date`) VALUES
-(0, 0, NULL, '1', 'AHAHAH', 'azda', 56, '2018-10-11 10:16:09');
+(1, 0, NULL, '1', 'AHAHAH', 'azda', 56, '2018-10-11 10:16:09');
 
 -- --------------------------------------------------------
 
@@ -232,9 +232,6 @@ CREATE TABLE `stock` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Index pour les tables déchargées
---
 
 --
 -- Index pour la table `address`
@@ -337,6 +334,21 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT pour la table `address`
 --
 ALTER TABLE `address`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `client`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `command`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `partner`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `reference`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

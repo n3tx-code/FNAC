@@ -1,0 +1,15 @@
+Trigger :
+Livraison - Commande
+Commande - Stock
+Commande - Carte de fidélité
+si suppression produit on supprime stock,  image
+
+Si magasin delete -> supprimer stock
+trigger référence -> stock : create ajouter référence dans stock avec default = 0
+
+Hashage :
+Nom produit pour la recherche
+
+Index :
+
+
