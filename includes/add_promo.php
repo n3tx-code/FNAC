@@ -14,13 +14,13 @@ $percentage = $_POST['percentage'];
 
 $sql = "INSERT INTO promo(reference, start_date, end_date, percentage) VALUES(:reference, :start_date, :end_date, :percentage)";
 
-/*$req = $bdd->prepare($sql);
+$req = $bdd->prepare($sql);
 $req->execute(array(
    'reference' => $reference,
    'start_date' => $start_date,
    'end_date' => $end_date,
    'percentage' => $percentage
-));*/
+));
 
 echo 'Successfully added !';
 
