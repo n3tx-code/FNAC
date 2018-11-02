@@ -24,10 +24,10 @@
             <select name="partner">
                 <option value=""></option>
                 <?php
-                    $sql = 'SELECT name FROM partner';
+                    $sql = 'SELECT id, name FROM partner';
                     foreach ($bdd->query($sql) as $row)
                     {
-                        echo '<option value="'.$row['name'].'">'.$row['name'].'</option>';
+                        echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
                     }
                 ?>
             </select>
