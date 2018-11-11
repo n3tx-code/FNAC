@@ -15,7 +15,7 @@ if(!empty($_POST['email1']) AND !empty($_POST['mdp1'])
 
             $client['name'] = htmlspecialchars($_POST['nom']);
             $client['first_name'] = htmlspecialchars($_POST['prenom']);
-            $client['phone'] = htmlspecialchars($_POST['tel']);
+            $client['phone'] = intval(htmlspecialchars($_POST['tel']));
 
             if (!empty($_POST['carte-fidelite'])) {
                 $client['fidelity_card'] = $_POST['carte-fidelite'];
