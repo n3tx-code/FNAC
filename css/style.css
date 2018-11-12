@@ -93,4 +93,15 @@
 {
     background: #33cc42;
 }
-
+hr
+{
+    border-top: 1px solid #FFBE14;
+}
+.add-admin-title:hover
+{
+    text-decoration: underline;
+}
+.add-admin-title
+{
+    cursor: pointer;
+}

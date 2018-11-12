@@ -1,7 +1,6 @@
 Trigger :
-Livraison - Commande
-Commande - Stock
-Commande - Carte de fidélité
+Commande validée -> Stock -1
+Commande validée -> Carte de fidélité + pts
 si suppression produit on supprime stock,  image
 
 Si magasin delete -> supprimer stock
