@@ -19,12 +19,14 @@ if(isset($_SESSION['ID']) AND $_SESSION['ID'] == 1)
             {
                 $type['product'] = "Le produit ";
                 $type['partner'] = "Le partner ";
+                $type['categorie'] = "La catégorie ";
                 echo "<div class=\"good\">" . $type[htmlspecialchars($_GET['type'])] . htmlspecialchars($_GET['name']) .
                     " a été ajouté !</div>";
             }
 
             include("includes/templates/form_add_product.php");
             include("includes/templates/form_add_partenaires.php");
+            include("includes/templates/form_add_categories.php");
             ?>
         </div>
     </div>
