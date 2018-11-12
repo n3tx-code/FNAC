@@ -1,5 +1,7 @@
 <?php
 
+include('bdd.php');
+
 if(!isset($_POST['reference']) OR empty($_POST['reference']) OR !isset($_POST['urls']) OR empty($_POST['urls']))
 {
     header('location: ' . $_SERVER['HTTP_REFERER']);
