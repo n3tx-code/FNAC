@@ -2,13 +2,12 @@
 
 include('../../../includes/bdd.php');
 
-var_dump($_POST);
+
 $name = htmlspecialchars($_POST['categorie_name']);
 
 $parent = null;
 if(!empty($_POST['categorie_parent']))
     $parent = $_POST['categorie_parent'];
-
 $description = null;
 if(!empty($_POST['categorie_description']))
     $description = $_POST['categorie_description'];
