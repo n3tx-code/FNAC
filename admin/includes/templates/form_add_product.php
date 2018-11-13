@@ -1,5 +1,5 @@
 <h2 class="add-admin-title">Ajout produit :</h2>
-<form action="includes/scripts/add_product.php" class="form-horizontal" method="post" style="display: none">
+<form action="includes/scripts/add_product.php" class="form-horizontal" method="post" style="display: none" enctype="multipart/form-data">
     <div class="form-group">
         <label class="control-label col-sm-4" for="product_name">Nom* :</label>
         <div class="col-sm-8">
@@ -57,6 +57,10 @@
     <div class="form-group">
         <label for="product_description">Description* :</label>
         <textarea class="form-control" rows="3" id="product_description" name="product_description" required></textarea>
+    </div>
+    <div class=""form-group">
+        <label for="product_img">Images* :</label>
+        <input type="file" accept="image/*" name="product_img[]" required multiple>
     </div>
     <button type="submit" class="btn btn-success btn-block">Ajouter produit</button>
 </form>
