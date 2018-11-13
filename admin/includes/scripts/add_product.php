@@ -22,20 +22,19 @@ $req->execute(array(
     'price' => $price
 ));
 
-$sql = 'SELECT id FROM reference WHERE category = :category AND partner = :partner 
-AND ref_product = :ref_product AND name = :name AND description = :description AND price = :price';
+$sql = 'SELECT id FROM reference WHERE category = :category AND ref_product = :ref_product 
+AND name = :name AND description = :description AND price = :price';
 
 $req = $bdd->prepare($sql);
 $req->execute(array(
     'category' => $category,
-    'partner' => $partner,
     'ref_product' => $ref_product,
     'name' => $name,
     'description' => $description,
     'price' => $price
 ));
 
-$res = $req->fetch()['id'];
+$reference = $req->fetch()['id'];
 $ts = time();
 
 for($i = 0; $i < count($files['name']); $i++)
@@ -45,24 +44,29 @@ for($i = 0; $i < count($files['name']); $i++)
 
     $path = "img/uploads/".$ts."_".$filename;
     $offset = "../../../";
-    if(move_uploaded_file($tmp_name, $offset.$path))
+    if(is_array(getimagesize($tmp_name)) AND move_uploaded_file($tmp_name, $offset.$path))
     {
         $sql = 'INSERT INTO image(reference, src) VALUES(:reference, :src)';
 
         $req = $bdd->prepare($sql);
         $req->execute(array(
-            'reference' => $res,
+            'reference' => $reference,
             'src' => $path
         ));
-
-        echo "Import successfull : ".$filename;
     }
     else
     {
-        echo "Import failed : ".$filename;
+        $sql = 'DELETE FROM image WHERE reference = '.$reference;
+        $bdd->query($sql);
+
+        $sql = 'DELETE FROM reference WHERE id = '.$reference;
+        $bdd->query($sql);
+
+        header("Location: /admin/?type=product&error=img&name=" . $filename);
+        exit();
     }
 }
 
-//header("Location: /admin/?type=product&error=false&name=" . $name);
+header("Location: /admin/?type=product&error=false&name=" . $name);
 
 ?>

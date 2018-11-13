@@ -13,8 +13,6 @@ $amount = $_POST['amount']; // amount of tickets
 $ticket = $_POST['ticket']; // tickets id
 $client = $_SESSION['ID'] // client id*/
 
-
-
 //TODO create new command
 //TODO create new product
 //TODO return valid adding :D
