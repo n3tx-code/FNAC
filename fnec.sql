@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 24 Octobre 2018 à 21:37
+-- Généré le :  Mar 13 Novembre 2018 à 12:57
 -- Version du serveur :  5.7.14
 -- Version de PHP :  7.0.10
 
@@ -36,6 +36,24 @@ CREATE TABLE `address` (
   `description` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déclencheurs `address`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_insert_adress` BEFORE INSERT ON `address` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.number < 0 THEN
+        set msg = concat('Numéro de rue invalide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+    if new.zip_code < 0 THEN
+    	set msg = concat('Code postal incorrect');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -48,15 +66,6 @@ CREATE TABLE `category` (
   `parent` int(11) DEFAULT NULL,
   `description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `category`
---
-
-INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
-(0, 'Informatique', NULL, 'L\'info c\'est bien'),
-(1, 'Jeux video', 0, 'JOUER'),
-(2, 'adadaad', 1, 'JOUER');
 
 -- --------------------------------------------------------
 
@@ -74,6 +83,24 @@ CREATE TABLE `client` (
   `password` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déclencheurs `client`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_insert_client` BEFORE INSERT ON `client` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.fidelity_card < 0 THEN
+        set msg = concat('Numéro de carte de fidélité erroné');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+    if new.phone < 0 THEN
+    	set msg = concat('Numéro de téléphone incorrect');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -86,6 +113,24 @@ CREATE TABLE `command` (
   `date` date NOT NULL,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déclencheurs `command`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_command` BEFORE INSERT ON `command` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.price < 0 THEN
+        set msg = concat('Prix commande incorrecte');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+    if new.date < CURRENT_DATE THEN
+    	set msg = concat('Date invalide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -100,6 +145,20 @@ CREATE TABLE `delivery` (
   `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déclencheurs `delivery`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_delivery` BEFORE INSERT ON `delivery` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.date < CURRENT_DATE THEN
+    	set msg = concat('Date invalide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -110,6 +169,30 @@ CREATE TABLE `fidelity_card` (
   `fc_number` int(11) NOT NULL,
   `points` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déclencheurs `fidelity_card`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_fidelity_card` BEFORE INSERT ON `fidelity_card` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.fc_number < 0 THEN
+        set msg = concat('Numéro de carte de fidélité incorrecte');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `trg_fidelity_card_pts` BEFORE UPDATE ON `fidelity_card` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.points < 0 THEN
+        set msg = concat('Nombre de points non valide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -135,6 +218,20 @@ CREATE TABLE `opinion` (
   `comment` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déclencheurs `opinion`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_opinion` BEFORE INSERT ON `opinion` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.grade < 0 THEN
+        set msg = concat('Note incorrecte');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -147,13 +244,6 @@ CREATE TABLE `partner` (
   `description` text NOT NULL,
   `website` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `partner`
---
-
-INSERT INTO `partner` (`id`, `name`, `description`, `website`) VALUES
-(1, 'Nils', 'Il est beau', 'http://vaede.com');
 
 -- --------------------------------------------------------
 
@@ -179,6 +269,28 @@ CREATE TABLE `promo` (
   `percentage` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déclencheurs `promo`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_promo` BEFORE INSERT ON `promo` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.start_date < CURRENT_DATE THEN
+        set msg = concat('Date de début non valide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+    if new.end_date <= CURRENT_DATE THEN
+    	set msg = concat('Date de fin non valide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+    if new.percentage <= 0 THEN
+    	set msg = concat('Pourcentage non valid');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -197,11 +309,18 @@ CREATE TABLE `reference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `reference`
+-- Déclencheurs `reference`
 --
-
-INSERT INTO `reference` (`id`, `category`, `partner`, `ref_product`, `name`, `description`, `price`, `add_date`) VALUES
-(1, 0, NULL, '1', 'AHAHAH', 'azda', 56, '2018-10-11 10:16:09');
+DELIMITER $$
+CREATE TRIGGER `trg_reference` BEFORE INSERT ON `reference` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.price <= 0 THEN
+    	set msg = concat('Prix invalide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -217,6 +336,24 @@ CREATE TABLE `shop` (
   `zip_code` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déclencheurs `shop`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_shop` BEFORE INSERT ON `shop` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.street_number < 0 THEN
+    	set msg = concat('Numéro de rue non valide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+    if new.zip_code < 0 THEN
+    	set msg = concat('Code postal non valide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -228,6 +365,30 @@ CREATE TABLE `stock` (
   `reference` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déclencheurs `stock`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_stock_insert` BEFORE INSERT ON `stock` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.quantity < 0 THEN
+    	set msg = concat('Quantité erronée');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `trg_stock_update` BEFORE UPDATE ON `stock` FOR EACH ROW begin
+    declare msg varchar(128);
+    if new.quantity < 0 THEN
+    	set msg = concat('Quantité erronée');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+end
+$$
+DELIMITER ;
 
 --
 -- Index pour les tables exportées
@@ -263,7 +424,7 @@ ALTER TABLE `client`
 ALTER TABLE `command`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client` (`client`),
-  ADD KEY `id` (`id`,`client`,`date`);
+  ADD KEY `id` (`id`,`client`,`date`,`price`);
 
 --
 -- Index pour la table `delivery`
@@ -354,7 +515,7 @@ ALTER TABLE `address`
 -- AUTO_INCREMENT pour la table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `client`
 --
@@ -369,12 +530,12 @@ ALTER TABLE `command`
 -- AUTO_INCREMENT pour la table `partner`
 --
 ALTER TABLE `partner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `reference`
 --
 ALTER TABLE `reference`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Contraintes pour les tables exportées
 --
