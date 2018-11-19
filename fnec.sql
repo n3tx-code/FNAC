@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 13 Novembre 2018 à 12:57
+-- Généré le :  Lun 19 Novembre 2018 à 07:31
 -- Version du serveur :  5.7.14
 -- Version de PHP :  7.0.10
 
@@ -67,6 +67,14 @@ CREATE TABLE `category` (
   `description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `category`
+--
+
+INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
+(1, 'test', NULL, 'test'),
+(2, 'coucou', 1, 'coucou');
+
 -- --------------------------------------------------------
 
 --
@@ -82,6 +90,13 @@ CREATE TABLE `client` (
   `mail` varchar(256) NOT NULL,
   `password` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `client`
+--
+
+INSERT INTO `client` (`id`, `fidelity_card`, `name`, `first_name`, `phone`, `mail`, `password`) VALUES
+(1, NULL, 'test', 'test', 0, 'test@test.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3');
 
 --
 -- Déclencheurs `client`
@@ -205,6 +220,13 @@ CREATE TABLE `image` (
   `src` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `image`
+--
+
+INSERT INTO `image` (`reference`, `src`) VALUES
+(3, 'img/uploads/1542268433_heaphone_man.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -270,6 +292,15 @@ CREATE TABLE `promo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Contenu de la table `promo`
+--
+
+INSERT INTO `promo` (`reference`, `start_date`, `end_date`, `percentage`) VALUES
+(3, '2018-11-22', '2018-11-21', 78),
+(3, '2018-11-23', '2018-11-30', 90),
+(3, '2018-11-29', '2018-12-06', 78);
+
+--
 -- Déclencheurs `promo`
 --
 DELIMITER $$
@@ -284,7 +315,11 @@ CREATE TRIGGER `trg_promo` BEFORE INSERT ON `promo` FOR EACH ROW begin
         signal sqlstate '45000' set message_text = msg;
     end if;
     if new.percentage <= 0 THEN
-    	set msg = concat('Pourcentage non valid');
+    	set msg = concat('Pourcentage non valide');
+        signal sqlstate '45000' set message_text = msg;
+    end if;
+    if new.end_date < new.start_date THEN
+    	set msg = concat('Pourcentage non valide');
         signal sqlstate '45000' set message_text = msg;
     end if;
 end
@@ -307,6 +342,13 @@ CREATE TABLE `reference` (
   `price` float NOT NULL,
   `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `reference`
+--
+
+INSERT INTO `reference` (`id`, `category`, `partner`, `ref_product`, `name`, `description`, `price`, `add_date`) VALUES
+(3, 1, NULL, 'test', 'test', 'test', 32, '2018-11-15 08:53:53');
 
 --
 -- Déclencheurs `reference`
@@ -335,6 +377,13 @@ CREATE TABLE `shop` (
   `city` varchar(256) NOT NULL,
   `zip_code` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `shop`
+--
+
+INSERT INTO `shop` (`identifiant`, `street_number`, `street`, `city`, `zip_code`) VALUES
+('test', 1, 'test', 'Test', 3178);
 
 --
 -- Déclencheurs `shop`
@@ -515,12 +564,12 @@ ALTER TABLE `address`
 -- AUTO_INCREMENT pour la table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `command`
 --
@@ -535,7 +584,7 @@ ALTER TABLE `partner`
 -- AUTO_INCREMENT pour la table `reference`
 --
 ALTER TABLE `reference`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Contraintes pour les tables exportées
 --
