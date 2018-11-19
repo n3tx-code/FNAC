@@ -9,6 +9,9 @@ $description = htmlspecialchars($_POST['product_description']);
 $price = intval((htmlspecialchars($_POST['product_price'])));
 $files = $_FILES['product_img'];
 
+
+$bdd->beginTransaction();
+
 $sql = 'INSERT INTO reference(category, partner, ref_product, name, description, price)
 VALUES(:category, :partner, :ref_product, :name, :description, :price)';
 
@@ -56,16 +59,13 @@ for($i = 0; $i < count($files['name']); $i++)
     }
     else
     {
-        $sql = 'DELETE FROM image WHERE reference = '.$reference;
-        $bdd->query($sql);
-
-        $sql = 'DELETE FROM reference WHERE id = '.$reference;
-        $bdd->query($sql);
-
+        $bdd->rollBack();
         header("Location: /admin/?type=product&error=img&name=" . $filename);
         exit();
     }
 }
+
+$bdd->commit();
 
 header("Location: /admin/?type=product&error=false&name=" . $name);
 

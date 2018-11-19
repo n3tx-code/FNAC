@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
--- Client :  127.0.0.1
--- Généré le :  Lun 19 Novembre 2018 à 07:31
--- Version du serveur :  5.7.14
--- Version de PHP :  7.0.10
+-- Hôte : 127.0.0.1
+-- Généré le :  lun. 19 nov. 2018 à 08:45
+-- Version du serveur :  10.1.31-MariaDB
+-- Version de PHP :  7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -68,7 +70,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `category`
+-- Déchargement des données de la table `category`
 --
 
 INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
@@ -92,7 +94,7 @@ CREATE TABLE `client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `client`
+-- Déchargement des données de la table `client`
 --
 
 INSERT INTO `client` (`id`, `fidelity_card`, `name`, `first_name`, `phone`, `mail`, `password`) VALUES
@@ -125,7 +127,7 @@ DELIMITER ;
 CREATE TABLE `command` (
   `id` int(11) NOT NULL,
   `client` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -221,7 +223,7 @@ CREATE TABLE `image` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `image`
+-- Déchargement des données de la table `image`
 --
 
 INSERT INTO `image` (`reference`, `src`) VALUES
@@ -274,6 +276,7 @@ CREATE TABLE `partner` (
 --
 
 CREATE TABLE `product` (
+  `id` int(11) NOT NULL,
   `reference` int(11) NOT NULL,
   `command` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -292,7 +295,7 @@ CREATE TABLE `promo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `promo`
+-- Déchargement des données de la table `promo`
 --
 
 INSERT INTO `promo` (`reference`, `start_date`, `end_date`, `percentage`) VALUES
@@ -344,7 +347,7 @@ CREATE TABLE `reference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `reference`
+-- Déchargement des données de la table `reference`
 --
 
 INSERT INTO `reference` (`id`, `category`, `partner`, `ref_product`, `name`, `description`, `price`, `add_date`) VALUES
@@ -379,7 +382,7 @@ CREATE TABLE `shop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `shop`
+-- Déchargement des données de la table `shop`
 --
 
 INSERT INTO `shop` (`identifiant`, `street_number`, `street`, `city`, `zip_code`) VALUES
@@ -440,7 +443,7 @@ $$
 DELIMITER ;
 
 --
--- Index pour les tables exportées
+-- Index pour les tables déchargées
 --
 
 --
@@ -457,7 +460,7 @@ ALTER TABLE `address`
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id`),
   ADD KEY `parent` (`parent`),
-  ADD KEY `id` (`id`,`name`);
+  ADD KEY `id` (`id`,`name`(255));
 
 --
 -- Index pour la table `client`
@@ -465,7 +468,7 @@ ALTER TABLE `category`
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fidelity_card` (`fidelity_card`),
-  ADD KEY `id` (`id`,`mail`,`password`);
+  ADD KEY `id` (`id`,`mail`(255),`password`(255));
 
 --
 -- Index pour la table `command`
@@ -473,7 +476,7 @@ ALTER TABLE `client`
 ALTER TABLE `command`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client` (`client`),
-  ADD KEY `id` (`id`,`client`,`date`,`price`);
+  ADD KEY `id` (`id`,`client`,`add_date`,`price`);
 
 --
 -- Index pour la table `delivery`
@@ -510,13 +513,13 @@ ALTER TABLE `opinion`
 --
 ALTER TABLE `partner`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`,`name`);
+  ADD KEY `id` (`id`,`name`(255));
 
 --
 -- Index pour la table `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`reference`,`command`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `command` (`command`),
   ADD KEY `reference` (`reference`,`command`);
 
@@ -534,14 +537,14 @@ ALTER TABLE `reference`
   ADD PRIMARY KEY (`id`),
   ADD KEY `category` (`category`),
   ADD KEY `partner` (`partner`),
-  ADD KEY `id` (`id`,`category`,`partner`,`ref_product`,`name`,`price`);
+  ADD KEY `id` (`id`,`category`,`partner`,`ref_product`(255),`name`(255),`price`);
 
 --
 -- Index pour la table `shop`
 --
 ALTER TABLE `shop`
   ADD PRIMARY KEY (`identifiant`),
-  ADD KEY `identifiant` (`identifiant`,`city`);
+  ADD KEY `identifiant` (`identifiant`,`city`(255));
 
 --
 -- Index pour la table `stock`
@@ -552,7 +555,7 @@ ALTER TABLE `stock`
   ADD KEY `shop` (`shop`,`reference`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
@@ -560,33 +563,45 @@ ALTER TABLE `stock`
 --
 ALTER TABLE `address`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT pour la table `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT pour la table `command`
 --
 ALTER TABLE `command`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT pour la table `partner`
 --
 ALTER TABLE `partner`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `product`
+--
+ALTER TABLE `product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT pour la table `reference`
 --
 ALTER TABLE `reference`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables déchargées
 --
 
 --
@@ -662,6 +677,7 @@ ALTER TABLE `reference`
 ALTER TABLE `stock`
   ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`),
   ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`shop`) REFERENCES `shop` (`identifiant`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
