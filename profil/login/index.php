@@ -17,7 +17,8 @@ else {
     <!DOCTYPE html>
     <html lang="fr">
     <head>
-        <?php include("../../includes/style.php"); ?>
+        <?php include("../../includes/style.php");
+        include ("../../includes/bdd.php");?>
     </head>
     <body>
 
