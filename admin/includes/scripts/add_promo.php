@@ -1,16 +1,11 @@
 <?php
 
-include('../includes/bdd.php');
-
-if(!isset($_POST['submit']) OR empty($_POST['submit']))
-{
-    header('location: ../test.php');
-}
-
-$reference = $_POST['reference']; //recover the id
-$start_date = $_POST['start_date'];
-$end_date = $_POST['end_date'];
-$percentage = $_POST['percentage'];
+include('../../../includes/bdd.php');
+var_dump($_POST);
+/*$reference = $_POST['ref_promo']; //recover the id
+$start_date = $_POST['promo_start_date'];
+$end_date = $_POST['promo_fin_date'];
+$percentage = $_POST['promo_pourcent'];
 
 $sql = "INSERT INTO promo(reference, start_date, end_date, percentage) VALUES(:reference, :start_date, :end_date, :percentage)";
 
@@ -22,6 +17,9 @@ $req->execute(array(
    'percentage' => $percentage
 ));
 
-echo 'Successfully added !';
+$req_ref_name = $bdd->prepare('SELECT name from reference WHERE id = ?');
+$req_ref_name->execute(array($reference));
+$ref_name = $req_ref_name->fetch()['name'];
+header("Location: /admin/?type=promo&error=false&name=" . $ref_name);
 
-?>
+?>*/

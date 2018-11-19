@@ -18,6 +18,6 @@
                    placeholder="Site web du partenaire" required>
         </div>
     </div>
-    <button type="submit" class="btn btn-success btn-block">Ajouter produit</button>
+    <button type="submit" class="btn btn-success btn-block">Ajouter partenaire</button>
 </form>
 <hr>

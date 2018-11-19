@@ -12,6 +12,7 @@ if(isset($_SESSION['ID']) AND $_SESSION['ID'] == 1)
         <title>Admin add</title>
     </head>
     <body>
+    <h1 class="text-center">Administration du site FNEC</h1>
     <div clas="container">
         <div class="col-md-6 col-md-offset-3">
             <?php
@@ -20,10 +21,16 @@ if(isset($_SESSION['ID']) AND $_SESSION['ID'] == 1)
                 $type['product'] = "Le produit ";
                 $type['partner'] = "Le partner ";
                 $type['categorie'] = "La catégorie ";
+                $type['promo'] = "La promotion ";
+                $type['shop'] = "La boutique ";
                 if($_GET['error'] == 'img')
                 {
                     echo "<div class=\"erreur\">Erreur dans l'import de l'image : " . htmlspecialchars($_GET['name']) .
                         "!</div>";
+                }
+                elseif ($_GET['error'] == "missing")
+                {
+                    echo "<div class=\"erreur\"> Merci de remplir tous les champs</div>";
                 }
                 else
                 {
@@ -38,14 +45,14 @@ if(isset($_SESSION['ID']) AND $_SESSION['ID'] == 1)
             include("includes/templates/form_add_product.php");
             include("includes/templates/form_add_partenaires.php");
             include("includes/templates/form_add_categories.php");
+            include("includes/templates/form_add_promo.php");
+            include("includes/templates/form_add_shop.php");
+            include("includes/templates/form_stock.php");
             ?>
         </div>
     </div>
 
     </body>
-
-    <script src="js/search_ref.js"></script>
-
     <script>
         //search.init('search_ref_promo', 'search_result');
 

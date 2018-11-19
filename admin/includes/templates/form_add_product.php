@@ -60,7 +60,7 @@
     </div>
     <div class=""form-group">
         <label for="product_img">Images* :</label>
-        <input type="file" accept="image/*" name="product_img[]" required multiple>
+        <input type="file" accept="image/*" name="product_img[]" required multiple id="product_image">
     </div>
     <button type="submit" class="btn btn-success btn-block">Ajouter produit</button>
 </form>

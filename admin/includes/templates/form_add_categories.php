@@ -1,4 +1,4 @@
-<h2 class="add-admin-title">Ajout Catérogies :</h2>
+<h2 class="add-admin-title">Ajout catégorie :</h2>
 <form action="includes/scripts/add_category.php" class="form-horizontal" method="post" style="display: none">
     <div class="form-group">
         <label class="control-label col-sm-4" for="categorie_name">Nom* :</label>
@@ -26,6 +26,6 @@
             </select>
         </div>
     </div>
-    <button type="submit" class="btn btn-success btn-block">Ajouter produit</button>
+    <button type="submit" class="btn btn-success btn-block">Ajouter catégorie</button>
 </form>
 <hr>

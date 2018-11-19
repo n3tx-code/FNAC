@@ -1,5 +1,6 @@
 <?php
-
+var_dump($_POST);
+/*
 include('bdd.php');
 
 if(!isset($_POST['shop']) OR empty($_POST['shop']) OR !isset($_POST['reference']) OR empty($_POST['reference'])
@@ -22,5 +23,5 @@ $req->execute(array(
 ));
 
 echo 'Succesfully added !';
-
+*/
 ?>
