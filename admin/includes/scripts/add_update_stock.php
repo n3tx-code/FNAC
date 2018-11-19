@@ -1,7 +1,4 @@
 <?php
-var_dump($_POST);
-/*
-include('bdd.php');
 
 if(!isset($_POST['shop']) OR empty($_POST['shop']) OR !isset($_POST['reference']) OR empty($_POST['reference'])
     OR !isset($_POST['quantity']) OR empty($_POST['quantity']))
@@ -9,11 +6,14 @@ if(!isset($_POST['shop']) OR empty($_POST['shop']) OR !isset($_POST['reference']
     header('location: ' . $_SERVER['HTTP_REFERER']);
 }
 
+include('../../../includes/bdd.php');
+
 $shop = $_POST['shop'];
 $reference = $_POST['reference'];
 $quantity = $_POST['quantity'];
 
-$sql = 'INSERT INTO stock(shop, reference, quantity) VALUES (:shop, :reference, :quantity)';
+$sql = 'INSERT INTO stock(shop, reference, quantity) VALUES (:shop, :reference, :quantity)
+ON DUPLICATE KEY UPDATE quantity = :quantity';
 
 $req = $bdd->prepare($sql);
 $req->execute(array(
@@ -22,6 +22,5 @@ $req->execute(array(
     'quantity' => $quantity
 ));
 
-echo 'Succesfully added !';
-*/
+echo 'Succesfully added / updated !';
 ?>
