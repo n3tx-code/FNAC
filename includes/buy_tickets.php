@@ -3,9 +3,7 @@
 if(!isset($_POST['amount']) OR empty($_POST['amount']) OR !isset($_POST['reference']) OR empty($_POST['reference'])
     OR !isset($_POST['price']) OR empty($_POST['price']))
 {
-    //header('location: ' . $_SERVER['HTTP_REFERER']);
-    echo "Missing parameters !";
-    exit();
+    header('location: ' . $_SERVER['HTTP_REFERER']);
 }
 
 session_start();
@@ -50,7 +48,7 @@ catch (Exception $ex)
     $req->execute(array(
        'id' => $command
     ));
-    
+
     exit();
 }
 
