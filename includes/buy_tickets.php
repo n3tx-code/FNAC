@@ -1,36 +1,59 @@
 <?php
 
-include('bdd.php');
-
-/*
-if(!isset($_POST['amount']) OR empty($_POST['amount']) OR !isset($_POST['ticket']) OR empty($_POST['ticket'])
-    OR !isset($_POST['client']) OR empty($_POST['client']))
+if(!isset($_POST['amount']) OR empty($_POST['amount']) OR !isset($_POST['reference']) OR empty($_POST['reference'])
+    OR !isset($_POST['price']) OR empty($_POST['price']))
 {
-    header('location: ' . $_SERVER['HTTP_REFERER']);
+    //header('location: ' . $_SERVER['HTTP_REFERER']);
+    echo "Missing parameters !";
+    exit();
 }
 
+session_start();
+
+include('bdd.php');
+
 $amount = $_POST['amount']; // amount of tickets
-$ticket = $_POST['ticket']; // tickets id
-$client = $_SESSION['ID'] // client id*/
+$reference = $_POST['reference']; // reference id
+$client = 1; // client id
+$price = $_POST['price']; //total tickets price
 
-//TODO create new command
-//TODO create new product
-//TODO return valid adding :D
+$sql = 'INSERT INTO command(client, price) VALUES(:client, :price)';
+$req = $bdd->prepare($sql);
+$req->execute(array(
+    'client' => $client,
+    'price' => $price
+));
 
-/*
+$command = $bdd->lastInsertId();
+
 try{
     $bdd->beginTransaction();
 
-
+    for($i = 0; $i < $amount; $i++)
+    {
+        $sql = 'INSERT INTO product(reference, command) VALUES(:reference, :command)';
+        $req = $bdd->prepare($sql);
+        $req->execute(array(
+            'reference' =>  $reference,
+            'command' => $command
+        ));
+    }
 
     $bdd->commit();
-
-    echo $amount . "tickets have been reserved !";
 }
 catch (Exception $ex)
 {
     $bdd->rollBack();
-    echo $error_msg;
-}*/
+
+    $sql = 'DELETE FROM command WHERE id = :id';
+    $req = $bdd->prepare($sql);
+    $req->execute(array(
+       'id' => $command
+    ));
+    
+    exit();
+}
+
+echo "done";
 
 ?>
