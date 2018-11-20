@@ -3,10 +3,10 @@
 $req_parent_cat =  $bdd->query('SELECT id, name from category WHERE parent IS NULL ')
 ?>
 <div class="header-navbar">
-    <div class="row">
+    <a href="/"><div class="row">
         <h1 class="site-title text-center">FNEC</h1><br>
         <h6 class="site-second-title text-center">Fédération Nationale Electroménager Cool</h6>
-    </div>
+    </div></a>
     <div class="row">
         <div class="nav-logo col-md-1">
             <a href="/"><img src="/img/logo.png" class="img-responsive"></a>
@@ -64,7 +64,17 @@ $req_parent_cat =  $bdd->query('SELECT id, name from category WHERE parent IS NU
                     <a href="/profil/"><i class="fas fa-user-alt"></i></a>
                 </div>
                 <div class="nav-basket col-md-4">
-                    <i class="fas fa-shopping-cart"></i>
+                    <a href="/cart/"><i class="fas fa-shopping-cart"><?php
+                            if(isset($_SESSION['cart']) AND sizeof($_SESSION['cart']) > 0)
+                            {
+                                $total_product = 0;
+                                foreach ($_SESSION['cart'] as &$item)
+                                {
+                                    $total_product += $item;
+                                }
+                                echo $total_product;
+                            }?>
+                        </i></a>
                 </div>
             </div>
 

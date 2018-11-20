@@ -15,6 +15,7 @@
             $_SESSION['ID'] = $userinfo['id'];
             $_SESSION['name'] = $userinfo['name'];
             $_SESSION['first_name'] = $userinfo['first_name'];
+            $_SESSION['cart'] = array();
 
             header("Location: ../");
         }
