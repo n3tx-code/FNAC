@@ -46,7 +46,7 @@ for($i = 0; $i < count($files['name']); $i++)
     $tmp_name = $files['tmp_name'][$i];
 
     $path = "/img/uploads/".$ts."_".$filename;
-    $offset = "../../../";
+    $offset = "../../..";
     if(is_array(getimagesize($tmp_name)) AND move_uploaded_file($tmp_name, $offset.$path))
     {
         $sql = 'INSERT INTO image(reference, src) VALUES(:reference, :src)';
