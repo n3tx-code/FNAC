@@ -7,7 +7,7 @@
 
 include ('../../../includes/bdd.php');
 
-$category = ''; //$_POST['category'];
+$category = 1; //$_POST['category'];
 
 $map = array();
 
@@ -22,8 +22,27 @@ while($res = $req->fetch())
     $map[$id] = $count;
 }
 
-asort($map);
+foreach($map as $key => $value)
+{
+    //get info
+    $sql = 'SELECT * FROM reference WHERE id = '.$key;
+    $reference = $bdd->query($sql)->fetch();
 
-var_dump($map);
+    $ref = $reference['ref_product'];
+    $name = $reference['name'];
+    $price = $reference['price'];
+
+    //get first image
+    $sql = 'SELECT src FROM image WHERE reference = '.$key;
+    $src = $bdd->query($sql)->fetch()['src'];
+
+    ?>
+
+    <div>
+        <img src="<?php echo $src ?>">
+    </div>
+
+    <?php
+}
 
 ?>

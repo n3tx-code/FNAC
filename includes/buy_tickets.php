@@ -12,7 +12,7 @@ include('bdd.php');
 
 $amount = $_POST['amount']; // amount of tickets
 $reference = $_POST['reference']; // reference id
-$client = 1; // client id
+$client = $_SESSION['id']; // client id
 $price = $_POST['price']; //total tickets price
 
 $sql = 'INSERT INTO command(client, price) VALUES(:client, :price)';

@@ -26,11 +26,9 @@ while($data = $stock->fetch())
     $map[$reference] = $count;
 }
 
-asort($map);
-
 foreach($map as $key => $value)
 {
-
+    echo $key . " : " . $value;
 }
 
 ?>
