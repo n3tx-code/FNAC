@@ -1,16 +1,15 @@
 <?php
-
-if(!isset($_POST['shop']) OR empty($_POST['shop']) OR !isset($_POST['reference']) OR empty($_POST['reference'])
-    OR !isset($_POST['quantity']) OR empty($_POST['quantity']))
+if(!isset($_POST['id_shop']) OR empty($_POST['id_shop']) OR !isset($_POST['ref_stock']) OR empty($_POST['ref_stock'])
+    OR !isset($_POST['stock_number']) OR empty($_POST['stock_number']))
 {
     header('location: ' . $_SERVER['HTTP_REFERER']);
 }
 
 include('../../../includes/bdd.php');
 
-$shop = $_POST['shop'];
-$reference = $_POST['reference'];
-$quantity = $_POST['quantity'];
+$shop = $_POST['id_shop'];
+$reference = $_POST['ref_stock'];
+$quantity = $_POST['stock_number'];
 
 $sql = 'INSERT INTO stock(shop, reference, quantity) VALUES (:shop, :reference, :quantity)
 ON DUPLICATE KEY UPDATE quantity = :quantity';
@@ -22,5 +21,5 @@ $req->execute(array(
     'quantity' => $quantity
 ));
 
-echo 'Succesfully added / updated !';
+header("Location: /admin/?type=stock&error=false&name=none" );
 ?>

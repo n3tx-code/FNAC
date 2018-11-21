@@ -32,6 +32,10 @@ if(isset($_SESSION['ID']) AND $_SESSION['ID'] == 1)
                 {
                     echo "<div class=\"erreur\"> Merci de remplir tous les champs</div>";
                 }
+                if($_GET['type'] == "stock")
+                {
+                    echo "<div class=\"good\"> Le stock a été mis à jour</div>";
+                }
                 else
                 {
                     echo "<div class=\"good\">" . $type[htmlspecialchars($_GET['type'])] . htmlspecialchars($_GET['name']) .
