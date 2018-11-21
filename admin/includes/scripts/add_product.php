@@ -9,7 +9,6 @@ $description = htmlspecialchars($_POST['product_description']);
 $price = intval((htmlspecialchars($_POST['product_price'])));
 $files = $_FILES['product_img'];
 
-
 $bdd->beginTransaction();
 
 $sql = 'INSERT INTO reference(category, partner, ref_product, name, description, price)

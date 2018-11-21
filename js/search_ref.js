@@ -1,40 +1,77 @@
 let search = (function(){
-    let search_ref_promo = null;
-    let search_result = null;
+    let _input = null;
+    let _result = null;
+    let _hover = false;
+
+    function show()
+    {
+        _result.style.display = null;
+    }
+
+    function hide()
+    {
+        _result.style.display = 'none';
+    }
+
+    function init(input, result)
+    {
+        _input = input;
+        _result = result;
+        hide();
+    }
 
     return{
-        init : function(input, result)
+        reference : function(input, result)
         {
-            search_ref_promo = document.getElementById(input);
-            if(search_ref_promo == null || search_ref_promo.nodeName !== "INPUT")
-            {
-                console.error("Invalid input name !");
-                return;
-            }
+            init(input, result);
 
-            search_result = document.getElementById(result);
-            if(search_result == null || search_result.nodeName !== "UL")
-            {
-                console.error("Invalid result name !");
-                return;
-            }
+            _input.addEventListener('input', (e) =>{
 
-            search_ref_promo.addEventListener('input', function(e){
+                let val = e.target.value
+                let url = '/includes/search_ref.php?search=' + val;
 
-                let formdata = new FormData();
-                formdata.append("search", search_ref_promo.value);
-
-                let init = {
-                    method: 'POST',
-                    body: formdata
-                };
-
-                fetch('includes/search_ref.php', init).then(function(response){
+                fetch(url).then((response) =>{
                     return response.text();
-                }).then(function(data){
-                    search_result.innerHTML = data;
-                });
+                }).then((html) =>{
+                    _result.innerHTML = html;
+                    show();
+                })
+            });
+
+            _input.addEventListener('focus', (e) =>{
+                show();
+            });
+
+            _input.addEventListener('blur', (e)=>{
+                if(!_hover)
+                {
+                    hide();
+                }
+            });
+
+            _result.addEventListener('mouseover', (e) =>{
+               _hover = true;
+            });
+
+            _result.addEventListener('mouseout', (e) =>{
+                _hover = false;
+            })
+        },
+
+        category : function(input, result)
+        {
+            init(input, result);
+
+            _input.addEventListener('input', (e) =>{
+
+                let val = e.target.value;
+
+                fetch().then((response) =>{
+                    return response.text();
+                }).then((json) =>{
+                    console.log(json);
+                })
             });
         }
-    };
+    }
 })();

@@ -50,13 +50,14 @@ $req_parent_cat =  $bdd->query('SELECT id, name from category WHERE parent IS NU
         </div>
         <div class="nav-search col-md-3">
             <div class="input-group stylish-input-group">
-                <input type="text" class="form-control"  placeholder="Recherche" >
+                <input id="search_input" type="text" class="form-control" placeholder="Recherche" >
                 <span class="input-group-addon">
                     <button>
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                 </span>
             </div>
+            <div id="search_result"></div>
         </div>
         <div class="col-md-1">
             <div class="row">
@@ -81,3 +82,9 @@ $req_parent_cat =  $bdd->query('SELECT id, name from category WHERE parent IS NU
         </div>
     </div>
 </div>
+<script src="/js/search_ref.js"></script>
+<script>
+    let search_input = document.getElementById("search_input");
+    let search_result = document.getElementById("search_result");
+    search.reference(search_input, search_result);
+</script>

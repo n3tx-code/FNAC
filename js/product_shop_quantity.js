@@ -1,13 +1,13 @@
 document.querySelector('#shop_input[list="shop_list"]').addEventListener('input', function(e) {
-    if(e.cancelable == true)
+    if(e.cancelable === true)
     {
-        var datalist_value = e.target.value;
-        var ref = $("#ref_id").val();
-        var url = "/includes/scripts/stock_ref_shop.php?s=" +  datalist_value + "&r=" + ref ;
+        let datalist_value = e.target.value;
+        let ref = $("#ref_id").val();
+        let url = "/includes/scripts/stock_ref_shop.php?s=" + datalist_value + "&r=" + ref;
         $.get(url , function(data, status){
             if(status === "success")
             {
-                if(data != "" && data > 0)
+                if(data !== "" && data > 0)
                 {
                     $("#ref_no_stock").hide();
                     $(".has-stock").show();

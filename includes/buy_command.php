@@ -10,10 +10,10 @@ session_start();
 
 include('bdd.php');
 
-$amount = $_POST['amount']; // amount of tickets
-$reference = $_POST['reference']; // reference id
+$amount = $_POST['amount']; // array of reference amount
+$reference = $_POST['reference']; //array of reference id
 $client = $_SESSION['id']; // client id
-$price = $_POST['price']; //total tickets price
+$price = $_POST['price']; //total price
 
 $sql = 'INSERT INTO command(client, price) VALUES(:client, :price)';
 $req = $bdd->prepare($sql);
@@ -24,17 +24,20 @@ $req->execute(array(
 
 $command = $bdd->lastInsertId();
 
-try{
+try {
     $bdd->beginTransaction();
 
-    for($i = 0; $i < $amount; $i++)
+    for ($i = 0; $i < count($reference); $i++)
     {
-        $sql = 'INSERT INTO product(reference, command) VALUES(:reference, :command)';
-        $req = $bdd->prepare($sql);
-        $req->execute(array(
-            'reference' =>  $reference,
-            'command' => $command
-        ));
+        for ($j = 0; $j < count($amount); $j++)
+        {
+            $sql = 'INSERT INTO product(reference, command) VALUES(:reference, :command)';
+            $req = $bdd->prepare($sql);
+            $req->execute(array(
+                'reference' => $reference[$i],
+                'command' => $command
+            ));
+        }
     }
 
     $bdd->commit();
