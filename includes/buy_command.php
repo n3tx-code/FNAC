@@ -29,7 +29,7 @@ try {
 
     for ($i = 0; $i < count($reference); $i++)
     {
-        for ($j = 0; $j < count($amount); $j++)
+        for ($j = 0; $j < count($amount[$i]); $j++)
         {
             $sql = 'INSERT INTO product(reference, command) VALUES(:reference, :command)';
             $req = $bdd->prepare($sql);
