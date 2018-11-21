@@ -12,12 +12,7 @@ $(".btn-next-inscription").click(function () {
     {
         $("#inscription-2").hide();
         $("#inscription-3").show();
-    }
-    else if(step == 4)
-    {
-        $("#inscription-3").hide();
         $(".btn-next-inscription").hide();
-        $("#inscription-4").show();
     }
 
 });
@@ -34,12 +29,6 @@ $(".btn-back-inscription").click(function () {
     {
         $("#inscription-3").hide();
         $("#inscription-2").show();
-    }
-    else if(step == 3)
-    {
-        $("#inscription-4").hide();
-        $("#inscription-3").show();
         $(".btn-next-inscription").show();
     }
-
 });

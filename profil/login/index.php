@@ -115,19 +115,6 @@ else {
                             </div>
 
                             <div id="inscription-3" style="display: none;">
-                                <h4>Carte de fidélité</h4>
-                                <div class="row">
-                                    <div class="col-md-4 col-md-offset-4">
-                                        <img src="../../img/f_card.png" class="img-responsive">
-                                    </div>
-                                </div>
-                                <div class="form-group" style="margin-top: 10px">
-                                    <label for="carte-fidelite">Carte de fidélité :</label>
-                                    <input type="text" class="form-control" id="carte-fidelite" name="carte-fidelite">
-                                </div>
-                            </div>
-
-                            <div id="inscription-4" style="display: none;">
                                 <h4>Adresse*</h4>
                                 <div class="form-group">
                                     <label for="nom-prenom">Nom et Prénom :</label>
@@ -176,7 +163,6 @@ else {
 
             </div>
         </div>
-    </div>
     <script src="../../js/inscription.js"></script>
     <?php
     include("../../includes/templates/footer.php");
