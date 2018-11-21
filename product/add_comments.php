@@ -1,17 +1,25 @@
 <?php
+session_start();
 
-include('bdd.php');
+include('../includes/bdd.php');
 
-if(!isset($_SESSION['id']) OR empty($_SESSION['id']) OR !isset($_POST['reference']) OR empty($_POST['reference'])
-   OR !isset($_POST['grade']) OR empty($_POST['grade']) OR !isset($_POST['comment']) OR empty($_POST['comment']))
+if(!isset($_POST['com_reference']) OR empty($_POST['com_reference'])
+   OR !isset($_POST['com_grade']) OR empty($_POST['com_grade']) OR !isset($_POST['com_txt']) OR empty($_POST['com_txt']))
 {
-    header('location: ' . $_SERVER['HTTP_REFERER']);
+    //header('location: ' . $_SERVER['HTTP_REFERER']);
 }
 
-$client = $_SESSION['id'];
-$reference = $_POST['reference'];
-$grade = $_POST['grade'];
-$comment = $_POST['comment'];
+$client = $_SESSION['ID'];
+$reference = $_POST['com_reference'];
+$grade = $_POST['com_grade'];
+$comment = $_POST['com_txt'];
+
+$req_user_allready_comment_ref = $bdd->prepare('SELECT COUNT(*) as total FROM opinion WHERE client = ?');
+$req_user_allready_comment_ref->execute(array($_SESSION['ID']));
+if($req_user_allready_comment_ref->fetch()['total'] > 0)
+{
+    header('location: ' . $_SERVER['HTTP_REFERER'] . "?comment=allready");
+}
 
 $list = ["Abruti","Ahuri","Aigrefin","Anachorete","Analphabete","Andouille","Anus De Poulpe",
     "Arsouille","Aspirateur A Muscadet","Assiste","Asticot","Attarde","Avorton","Babache",
@@ -105,7 +113,7 @@ foreach ($list as $word)
 {
     if(strrpos(strtolower($comment), strtolower($word)) != false)
     {
-        echo "pas bien d'insulter :o !";
+        header('location: ' . $_SERVER['HTTP_REFERER'] . "?comment=false");
         exit();
     }
 }
@@ -118,5 +126,5 @@ $req->execute(array(
     'grade' => $grade,
     'comment' => $comment
 ));
-
+header('location: ' . $_SERVER['HTTP_REFERER'] . "?comment=true");
 ?>
