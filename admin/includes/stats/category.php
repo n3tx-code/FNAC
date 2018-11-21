@@ -6,8 +6,20 @@
 }*/
 
 include ('../../../includes/bdd.php');
+include ("../../../includes/style.php");
 
 $category = 1; //$_POST['category'];
+
+$sql = $sql = 'SELECT name FROM category WHERE id = "'.$category.'"';
+$req = $bdd->query($sql);
+$categoryName = $req->fetch()['name'];
+
+?>
+<div style="text-align: center">
+    <h3>Category : <?= $categoryName ?></h3>
+</div>
+<div style="display: flex; text-align: center; justify-content: center; align-items: center;">
+<?php
 
 $map = array();
 
@@ -38,11 +50,14 @@ foreach($map as $key => $value)
 
     ?>
 
-    <div>
-        <img src="<?php echo $src ?>">
-    </div>
+    <a href="/product/?r=<?= $key?>">
+        <img style="max-height: 250px;" src="<?= $src ?>">
+        <h4><?= $name ?> : <?= $value ?> sold.</h4>
+    </a>
 
     <?php
 }
 
 ?>
+
+</div>

@@ -6,12 +6,16 @@
 }*/
 
 include ('../../../includes/bdd.php');
+include ("../../../includes/style.php");
 
 $shop_id = 'ml'; //$_POST['shop'];
 
-$sql = 'SELECT * FROM shop WHERE identifiant = "'.$shop_id.'"';
-
-$shop_data = $bdd->query($sql)->fetch();
+?>
+<div style="text-align: center">
+    <h3>Shop : <?= $shop_id ?></h3>
+</div>
+<div style="display: flex; text-align: center; justify-content: center; align-items: center;">
+<?php
 
 $map = array();
 
@@ -28,7 +32,28 @@ while($data = $stock->fetch())
 
 foreach($map as $key => $value)
 {
-    echo $key . " : " . $value;
+    //get info
+    $sql = 'SELECT * FROM reference WHERE id = '.$key;
+    $reference = $bdd->query($sql)->fetch();
+
+    $ref = $reference['ref_product'];
+    $name = $reference['name'];
+    $price = $reference['price'];
+
+    //get first image
+    $sql = 'SELECT src FROM image WHERE reference = '.$key;
+    $src = $bdd->query($sql)->fetch()['src'];
+
+    ?>
+
+    <a href="/product/?r=<?= $key?>">
+        <img style="max-height: 250px;" src="<?= $src ?>">
+        <h4><?= $name ?> : <?= $value ?> sold.</h4>
+    </a>
+
+    <?php
 }
 
 ?>
+
+</div>
