@@ -21,3 +21,7 @@
 
 <!-- Our own style -->
 <link rel="stylesheet" href="/css/style.css">
+
+<title>FNEC</title>
+
+<link rel="icon" href="/img/logo.png">
