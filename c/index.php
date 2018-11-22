@@ -63,38 +63,38 @@ session_start();
         {
             ?>
             <a href="/product/?r=<?= $r['id'] ?>">
-            <div class="col-md-4 reference">
-                <?php
-                    $src = "http://ijbw.be/wordpress/wp-content/uploads/2017/02/photo-manquante-1024x484.png";
-                    $req_img_ref = $bdd->prepare('SELECT src FROM image WHERE reference = ?');
-                    $req_img_ref->execute(array($r['id']));
-                    $img_ref = $req_img_ref->fetch();
-                    if (!empty($img_ref))
-                    {
+                <div class="col-md-4 reference">
+                    <?php
+                        $src = "http://ijbw.be/wordpress/wp-content/uploads/2017/02/photo-manquante-1024x484.png";
+                        $req_img_ref = $bdd->prepare('SELECT src FROM image WHERE reference = ?');
+                        $req_img_ref->execute(array($r['id']));
+                        $img_ref = $req_img_ref->fetch();
+                        if (!empty($img_ref))
+                        {
 
-                        $src = $img_ref['src'];
-                    }
-                    ?>
-                    <img src="<?= $src ?>"
-                         class="img-responsive">
-                    <a href="/product/?r=<?= $r['id'] ?>"><h3 class="text-center"><?= $r['name'] ?></h3></a>
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
-                            <p><?= $r['description'] ?></p>
+                            $src = $img_ref['src'];
+                        }
+                        ?>
+                        <img src="<?= $src ?>"
+                             class="img-responsive">
+                        <a href="/product/?r=<?= $r['id'] ?>"><h3 class="text-center"><?= $r['name'] ?></h3></a>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <p><?= $r['description'] ?></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="ref_price">
-                        <?= $r['price'] ?> <i class="fas fa-euro-sign"></i>
-                    </div>
-                    <div class="ref_note">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    </div>
-            </div>
+                        <div class="ref_price">
+                            <?= $r['price'] ?> <i class="fas fa-euro-sign"></i>
+                        </div>
+                        <div class="ref_note">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                </div>
             </a>
             <?php
         }
     ?>
-
+    </div>
     <?php
     include("../includes/templates/footer.php");
     ?>
