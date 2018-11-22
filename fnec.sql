@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le :  lun. 19 nov. 2018 à 08:45
--- Version du serveur :  10.1.31-MariaDB
--- Version de PHP :  7.2.4
+-- Client :  127.0.0.1
+-- Généré le :  Jeu 22 Novembre 2018 à 08:39
+-- Version du serveur :  5.7.14
+-- Version de PHP :  7.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -35,8 +33,15 @@ CREATE TABLE `address` (
   `street` varchar(256) NOT NULL,
   `city` varchar(256) NOT NULL,
   `zip_code` int(11) NOT NULL,
-  `description` varchar(256) NOT NULL
+  `description` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `address`
+--
+
+INSERT INTO `address` (`id`, `client`, `number`, `street`, `city`, `zip_code`, `description`) VALUES
+(1, 9, '1', 'rezrz', 'test@test.net', 68, NULL);
 
 --
 -- Déclencheurs `address`
@@ -70,12 +75,13 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `category`
+-- Contenu de la table `category`
 --
 
 INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
 (1, 'test', NULL, 'test'),
-(2, 'coucou', 1, 'coucou');
+(2, 'coucou', 1, 'coucou'),
+(3, 'pas de fils', NULL, 'ne peut pas avoir de fils de pute');
 
 -- --------------------------------------------------------
 
@@ -85,7 +91,6 @@ INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
 
 CREATE TABLE `client` (
   `id` int(11) NOT NULL,
-  `fidelity_card` int(11) DEFAULT NULL,
   `name` varchar(256) NOT NULL,
   `first_name` varchar(256) NOT NULL,
   `phone` int(11) NOT NULL,
@@ -94,11 +99,19 @@ CREATE TABLE `client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `client`
+-- Contenu de la table `client`
 --
 
-INSERT INTO `client` (`id`, `fidelity_card`, `name`, `first_name`, `phone`, `mail`, `password`) VALUES
-(1, NULL, 'test', 'test', 0, 'test@test.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3');
+INSERT INTO `client` (`id`, `name`, `first_name`, `phone`, `mail`, `password`) VALUES
+(1, 'test', 'test', 0, 'test@test.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
+(3, 'test', 'test', 0, 'test@test.net', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
+(4, 'coucou', 'coucou', 67, 'coucou@coucou.com', '5ed25af7b1ed23fb00122e13d7f74c4d8262acd8'),
+(5, 'salut', 'salut', 0, 'salut@salut.com', '1bfbdf35b1359fc6b6f93893874cf23a50293de5'),
+(6, 'coucou', 'coucou', 67, 'coucou@coucou.com', '5ed25af7b1ed23fb00122e13d7f74c4d8262acd8'),
+(7, 'salut@salut.com', 'salut@salut.com', 786, 'salut@salut.com', '61db98fffa60a465ed71cdb308f25ee5a9ed9be2'),
+(8, 'salut@salut.com', 'salut@salut.com', 786, 'salut@salut.com', '61db98fffa60a465ed71cdb308f25ee5a9ed9be2'),
+(9, 'test@test.net', 'test@test.net', 687, 'test@test.net', '79fc33f9048c6436f353360155168c76f0d90083'),
+(10, 'test@test.net', 'test@test.net', 687, 'test@test.net', '79fc33f9048c6436f353360155168c76f0d90083');
 
 --
 -- Déclencheurs `client`
@@ -106,10 +119,6 @@ INSERT INTO `client` (`id`, `fidelity_card`, `name`, `first_name`, `phone`, `mai
 DELIMITER $$
 CREATE TRIGGER `trg_insert_client` BEFORE INSERT ON `client` FOR EACH ROW begin
     declare msg varchar(128);
-    if new.fidelity_card < 0 THEN
-        set msg = concat('Numéro de carte de fidélité erroné');
-        signal sqlstate '45000' set message_text = msg;
-    end if;
     if new.phone < 0 THEN
     	set msg = concat('Numéro de téléphone incorrect');
         signal sqlstate '45000' set message_text = msg;
@@ -127,7 +136,7 @@ DELIMITER ;
 CREATE TABLE `command` (
   `id` int(11) NOT NULL,
   `client` int(11) NOT NULL,
-  `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` date NOT NULL,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -179,41 +188,6 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `fidelity_card`
---
-
-CREATE TABLE `fidelity_card` (
-  `fc_number` int(11) NOT NULL,
-  `points` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déclencheurs `fidelity_card`
---
-DELIMITER $$
-CREATE TRIGGER `trg_fidelity_card` BEFORE INSERT ON `fidelity_card` FOR EACH ROW begin
-    declare msg varchar(128);
-    if new.fc_number < 0 THEN
-        set msg = concat('Numéro de carte de fidélité incorrecte');
-        signal sqlstate '45000' set message_text = msg;
-    end if;
-end
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `trg_fidelity_card_pts` BEFORE UPDATE ON `fidelity_card` FOR EACH ROW begin
-    declare msg varchar(128);
-    if new.points < 0 THEN
-        set msg = concat('Nombre de points non valide');
-        signal sqlstate '45000' set message_text = msg;
-    end if;
-end
-$$
-DELIMITER ;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `image`
 --
 
@@ -223,11 +197,18 @@ CREATE TABLE `image` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `image`
+-- Contenu de la table `image`
 --
 
 INSERT INTO `image` (`reference`, `src`) VALUES
-(3, 'img/uploads/1542268433_heaphone_man.jpg');
+(3, '/img/uploads/1542268433_heaphone_man.jpg'),
+(4, '/img/uploads/1542622484_420.jpg'),
+(5, '/img/uploads/1542623443_feu.jpg'),
+(14, '/img/uploads/1542647105_Capture.JPG'),
+(17, '/img/uploads/1542648897_club.jpg'),
+(17, '/img/uploads/1542648897_concert-1209323_1280.jpg'),
+(17, '/img/uploads/1542648897_feelgood.jpg'),
+(17, '/img/uploads/1542648897_festival.jpg');
 
 -- --------------------------------------------------------
 
@@ -241,6 +222,13 @@ CREATE TABLE `opinion` (
   `grade` smallint(6) NOT NULL,
   `comment` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `opinion`
+--
+
+INSERT INTO `opinion` (`client`, `reference`, `grade`, `comment`) VALUES
+(1, 3, 4, 'test');
 
 --
 -- Déclencheurs `opinion`
@@ -269,6 +257,13 @@ CREATE TABLE `partner` (
   `website` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `partner`
+--
+
+INSERT INTO `partner` (`id`, `name`, `description`, `website`) VALUES
+(1, 'Boeing', 'Petite entreprise dâ€™aÃ©ronautique d\'amÃ©rique du nord ', 'htttp://www.boeing.com');
+
 -- --------------------------------------------------------
 
 --
@@ -276,7 +271,6 @@ CREATE TABLE `partner` (
 --
 
 CREATE TABLE `product` (
-  `id` int(11) NOT NULL,
   `reference` int(11) NOT NULL,
   `command` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -295,7 +289,7 @@ CREATE TABLE `promo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `promo`
+-- Contenu de la table `promo`
 --
 
 INSERT INTO `promo` (`reference`, `start_date`, `end_date`, `percentage`) VALUES
@@ -347,11 +341,15 @@ CREATE TABLE `reference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `reference`
+-- Contenu de la table `reference`
 --
 
 INSERT INTO `reference` (`id`, `category`, `partner`, `ref_product`, `name`, `description`, `price`, `add_date`) VALUES
-(3, 1, NULL, 'test', 'test', 'test', 32, '2018-11-15 08:53:53');
+(3, 2, NULL, 'test', 'test', 'test', 32, '2018-11-15 08:53:53'),
+(4, 2, NULL, 'taezt', 'oiutoaezt', 'reazazte aze tzaet azeta yza e(talkrara re ajre jlae jrlaj r:ka hzkr ahjezr', 68, '2018-11-19 11:14:44'),
+(5, 1, NULL, 'teazet', 'dpoezak', 'fazefij lka feafez', 67, '2018-11-19 11:30:43'),
+(14, 3, NULL, 'fazef', 'faezf', 'fdsqff', 324, '2018-11-19 18:05:05'),
+(17, 1, NULL, 'testazet', 'test', 'fqzefazef', 1289, '2018-11-19 18:34:57');
 
 --
 -- Déclencheurs `reference`
@@ -382,7 +380,7 @@ CREATE TABLE `shop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `shop`
+-- Contenu de la table `shop`
 --
 
 INSERT INTO `shop` (`identifiant`, `street_number`, `street`, `city`, `zip_code`) VALUES
@@ -419,6 +417,13 @@ CREATE TABLE `stock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Contenu de la table `stock`
+--
+
+INSERT INTO `stock` (`shop`, `reference`, `quantity`) VALUES
+('test', 4, 525);
+
+--
 -- Déclencheurs `stock`
 --
 DELIMITER $$
@@ -443,7 +448,7 @@ $$
 DELIMITER ;
 
 --
--- Index pour les tables déchargées
+-- Index pour les tables exportées
 --
 
 --
@@ -460,15 +465,14 @@ ALTER TABLE `address`
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id`),
   ADD KEY `parent` (`parent`),
-  ADD KEY `id` (`id`,`name`(255));
+  ADD KEY `id` (`id`,`name`);
 
 --
 -- Index pour la table `client`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fidelity_card` (`fidelity_card`),
-  ADD KEY `id` (`id`,`mail`(255),`password`(255));
+  ADD KEY `id` (`id`,`mail`,`password`);
 
 --
 -- Index pour la table `command`
@@ -476,7 +480,7 @@ ALTER TABLE `client`
 ALTER TABLE `command`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client` (`client`),
-  ADD KEY `id` (`id`,`client`,`add_date`,`price`);
+  ADD KEY `id` (`id`,`client`,`date`,`price`);
 
 --
 -- Index pour la table `delivery`
@@ -485,13 +489,6 @@ ALTER TABLE `delivery`
   ADD PRIMARY KEY (`command`),
   ADD KEY `address` (`address`),
   ADD KEY `command` (`command`,`address`);
-
---
--- Index pour la table `fidelity_card`
---
-ALTER TABLE `fidelity_card`
-  ADD PRIMARY KEY (`fc_number`),
-  ADD KEY `fc_number` (`fc_number`);
 
 --
 -- Index pour la table `image`
@@ -513,13 +510,13 @@ ALTER TABLE `opinion`
 --
 ALTER TABLE `partner`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`,`name`(255));
+  ADD KEY `id` (`id`,`name`);
 
 --
 -- Index pour la table `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`reference`,`command`),
   ADD KEY `command` (`command`),
   ADD KEY `reference` (`reference`,`command`);
 
@@ -537,14 +534,14 @@ ALTER TABLE `reference`
   ADD PRIMARY KEY (`id`),
   ADD KEY `category` (`category`),
   ADD KEY `partner` (`partner`),
-  ADD KEY `id` (`id`,`category`,`partner`,`ref_product`(255),`name`(255),`price`);
+  ADD KEY `id` (`id`,`category`,`partner`,`ref_product`,`name`,`price`);
 
 --
 -- Index pour la table `shop`
 --
 ALTER TABLE `shop`
   ADD PRIMARY KEY (`identifiant`),
-  ADD KEY `identifiant` (`identifiant`,`city`(255));
+  ADD KEY `identifiant` (`identifiant`,`city`);
 
 --
 -- Index pour la table `stock`
@@ -555,53 +552,41 @@ ALTER TABLE `stock`
   ADD KEY `shop` (`shop`,`reference`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT pour les tables exportées
 --
 
 --
 -- AUTO_INCREMENT pour la table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT pour la table `command`
 --
 ALTER TABLE `command`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT pour la table `partner`
 --
 ALTER TABLE `partner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `product`
---
-ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `reference`
 --
 ALTER TABLE `reference`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
--- Contraintes pour les tables déchargées
+-- Contraintes pour les tables exportées
 --
 
 --
@@ -615,12 +600,6 @@ ALTER TABLE `address`
 --
 ALTER TABLE `category`
   ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `category` (`id`);
-
---
--- Contraintes pour la table `client`
---
-ALTER TABLE `client`
-  ADD CONSTRAINT `client_ibfk_1` FOREIGN KEY (`fidelity_card`) REFERENCES `fidelity_card` (`fc_number`);
 
 --
 -- Contraintes pour la table `command`
@@ -677,7 +656,6 @@ ALTER TABLE `reference`
 ALTER TABLE `stock`
   ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`),
   ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`shop`) REFERENCES `shop` (`identifiant`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
