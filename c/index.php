@@ -87,7 +87,26 @@ session_start();
                             <?= $r['price'] ?> <i class="fas fa-euro-sign"></i>
                         </div>
                         <div class="ref_note">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            <?php
+                            // generate rating
+                            $req_rating_ref = $bdd->prepare('SELECT AVG(grade) FROM opinion WHERE reference = ?');
+                            $req_rating_ref->execute(array(htmlspecialchars($r['id'])));
+                            $rating_ref = $req_rating_ref->fetchColumn();
+                            $rating_ref_int = floor($rating_ref);
+                            $rating_ref_decimals =  $rating_ref - $rating_ref_int;
+                            for ($i = 0; $i < $rating_ref_int; $i++)
+                            {
+                            ?>
+                            <i class="fas fa-star"></i>
+                            <?php
+                            }
+                            if($rating_ref_decimals >= 0.5)
+                            {
+                            ?>
+                            <i class="fas fa-star-half-alt"></i>
+                            <?php
+                            }
+                            ?>
                         </div>
                 </div>
             </a>
