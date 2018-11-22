@@ -1,8 +1,7 @@
 <?php
 
 include('../../../includes/bdd.php');
-var_dump($_POST);
-/*$reference = $_POST['ref_promo']; //recover the id
+$reference = $_POST['ref_promo'];
 $start_date = $_POST['promo_start_date'];
 $end_date = $_POST['promo_fin_date'];
 $percentage = $_POST['promo_pourcent'];
@@ -22,4 +21,4 @@ $req_ref_name->execute(array($reference));
 $ref_name = $req_ref_name->fetch()['name'];
 header("Location: /admin/?type=promo&error=false&name=" . $ref_name);
 
-?>*/
+?>

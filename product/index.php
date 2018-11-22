@@ -111,10 +111,32 @@ else {
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-5" style="margin-top: 10px">
-                                        <span class="ref_price"><?= $reference['price'] ?> € / l'unité</span>
+                                    <div class="col-md-8" style="margin-top: 10px">
+                                        <?php
+                                            $req_promo_ref = $bdd->prepare('SELECT percentage FROM promo WHERE reference = ? AND end_date > CURRENT_DATE');
+                                            $req_promo_ref->execute(array(htmlspecialchars($_GET['r'])));
+                                            $promo_ref = $req_promo_ref->fetchColumn();
+                                            if(!$promo_ref)
+                                            {
+                                                ?>
+                                                <span class="ref_price"><?= $reference['price'] ?> € / l'unité</span>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                                    <div style="color: red; font-size: 20px; font-weight: bold; font-style: italic"><?= $promo_ref ?> % de promotion</div>
+                                                    <span class="ref_price"><span style=" text-decoration: line-through;"><?= $reference['price'] ?></span>
+                                                        <?php
+                                                        $price_promo = $reference['price'] - (($reference['price'] / 100) * $promo_ref );
+                                                        ?>
+                                                        <span style="color : red"><?= $price_promo ?></span> € / l'unité</span>
+                                                <?php
+                                            }
+                                        ?>
+
                                     </div>
-                                    <div class="col-md-6" >
+                                    <div class="col-md-4" >
                                         <button type="submit" class="btn btn-success btn-lg" id="ref_add_command" disabled>Ajouter au panier !</button>
                                     </div>
                                 </div
