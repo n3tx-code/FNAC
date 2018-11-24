@@ -51,7 +51,7 @@ session_start();
                     Quantité : <?= $_SESSION['cart'][$key]; ?><br>
                     Magasin : <?= $_SESSION['shop'][$key]; ?><br>
                     <?php
-                    $req_promo_ref = $bdd->prepare('SELECT percentage FROM promo WHERE reference = ? AND end_date > CURRENT_DATE');
+                    $req_promo_ref = $bdd->prepare('SELECT percentage FROM promo WHERE reference = ? AND end_date >= CURRENT_DATE');
                     $req_promo_ref->execute(array($key));
                     $promo_ref = $req_promo_ref->fetchColumn();
                     if($promo_ref)

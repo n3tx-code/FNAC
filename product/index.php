@@ -113,7 +113,7 @@ else {
                                 <div class="row">
                                     <div class="col-md-8" style="margin-top: 10px">
                                         <?php
-                                            $req_promo_ref = $bdd->prepare('SELECT percentage FROM promo WHERE reference = ? AND end_date > CURRENT_DATE');
+                                            $req_promo_ref = $bdd->prepare('SELECT percentage FROM promo WHERE reference = ? AND end_date >= CURRENT_DATE');
                                             $req_promo_ref->execute(array(htmlspecialchars($_GET['r'])));
                                             $promo_ref = $req_promo_ref->fetchColumn();
                                             if(!$promo_ref)

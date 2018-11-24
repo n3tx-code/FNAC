@@ -17,7 +17,7 @@ foreach ($_SESSION['cart'] as $key => $ref) {
     $ref_info = $req_ref_info->fetch();
     $ref_price = $ref_info['price'];
 
-    $req_promo = $bdd->prepare('SELECT percentage FROM promo WHERE reference = ?');
+    $req_promo = $bdd->prepare('SELECT percentage FROM promo WHERE reference = ? AND end_date >= CURRENT_DATE');
     $req_promo->execute(array($key));
     $promo_ref = $req_promo->fetchColumn();
     if($promo_ref)
@@ -26,7 +26,6 @@ foreach ($_SESSION['cart'] as $key => $ref) {
     }
     $total_price += ($ref_price * $_SESSION['cart'][$key]);
 }
-
 $sql = 'INSERT INTO command(client, price) VALUES(:client, :price)';
 $req = $bdd->prepare($sql);
 $req->execute(array(
