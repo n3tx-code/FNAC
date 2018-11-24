@@ -15,6 +15,10 @@ a:hover
 {
     color : #FFBE14;
 }
+.footer-link :hover{
+    color : white;
+    text-decoration: underline;
+}
 .stylish-input-group .input-group-addon{
     background: white !important;
 }
