@@ -74,6 +74,26 @@ session_start();
             </div>
             <div class="col-md-6">
                 <h2 class="text-center">Mes adresses</h2>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <?php
+                        $req_adress = $bdd->prepare('SELECT * FROM address WHERE client = ? ');
+                        $req_adress->execute(array($_SESSION['ID']));
+                        while ($adress = $req_adress->fetch())
+                        {
+                            ?>
+                            <div class="row">
+                            <h5><?= $adress['description'] ?></h5>
+                            <?= $adress['number'] ?> <?= $adress['street'] ?><br>
+                            <?= $adress['city'] ?> <?= $adress['zip_code']?>
+                            <hr>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                        <a href="adress/"><button type="button" class="btn btn-success btn-block">Ajouter une adresse</button></a>
+                    </div>
+                </div>
             </div>
         </div>
         <?php
