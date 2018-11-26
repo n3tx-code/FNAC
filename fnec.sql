@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le :  lun. 26 nov. 2018 à 08:51
--- Version du serveur :  10.1.31-MariaDB
--- Version de PHP :  7.2.4
+-- Client :  127.0.0.1
+-- Généré le :  Lun 26 Novembre 2018 à 19:31
+-- Version du serveur :  5.7.14
+-- Version de PHP :  7.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -39,11 +37,12 @@ CREATE TABLE `address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `address`
+-- Contenu de la table `address`
 --
 
 INSERT INTO `address` (`id`, `client`, `number`, `street`, `city`, `zip_code`, `description`) VALUES
-(1, 9, '1', 'rezrz', 'test@test.net', 68, NULL);
+(1, 9, '1', 'rezrz', 'test@test.net', 68, NULL),
+(2, 1, '1', 'test', 'test', 78931, 'test');
 
 --
 -- Déclencheurs `address`
@@ -77,7 +76,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `category`
+-- Contenu de la table `category`
 --
 
 INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
@@ -101,7 +100,7 @@ CREATE TABLE `client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `client`
+-- Contenu de la table `client`
 --
 
 INSERT INTO `client` (`id`, `name`, `first_name`, `phone`, `mail`, `password`) VALUES
@@ -237,7 +236,7 @@ CREATE TABLE `command` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `command`
+-- Contenu de la table `command`
 --
 
 INSERT INTO `command` (`id`, `client`, `add_date`, `price`) VALUES
@@ -261,7 +260,8 @@ INSERT INTO `command` (`id`, `client`, `add_date`, `price`) VALUES
 (21, 1, '2018-11-22 18:57:42', 1139),
 (22, 1, '2018-11-22 18:58:02', 1139),
 (24, 1, '2018-11-22 18:59:49', 112.64),
-(25, 1, '2018-11-22 19:00:53', 176);
+(25, 1, '2018-11-22 19:00:53', 176),
+(28, 1, '2018-11-26 19:57:22', 161.92);
 
 --
 -- Déclencheurs `command`
@@ -286,23 +286,16 @@ DELIMITER ;
 CREATE TABLE `delivery` (
   `command` int(11) NOT NULL,
   `address` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `status` varchar(255) NOT NULL
+  `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(255) NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déclencheurs `delivery`
+-- Contenu de la table `delivery`
 --
-DELIMITER $$
-CREATE TRIGGER `trg_delivery` BEFORE INSERT ON `delivery` FOR EACH ROW begin
-    declare msg varchar(128);
-    if new.date < CURRENT_DATE THEN
-    	set msg = concat('Date invalide');
-        signal sqlstate '45000' set message_text = msg;
-    end if;
-end
-$$
-DELIMITER ;
+
+INSERT INTO `delivery` (`command`, `address`, `add_date`, `status`) VALUES
+(28, 2, '2018-11-26 19:57:23', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -316,7 +309,7 @@ CREATE TABLE `image` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `image`
+-- Contenu de la table `image`
 --
 
 INSERT INTO `image` (`reference`, `src`) VALUES
@@ -338,7 +331,7 @@ CREATE TABLE `opinion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `opinion`
+-- Contenu de la table `opinion`
 --
 
 INSERT INTO `opinion` (`client`, `reference`, `grade`, `comment`) VALUES
@@ -406,7 +399,7 @@ CREATE TABLE `partner` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `partner`
+-- Contenu de la table `partner`
 --
 
 INSERT INTO `partner` (`id`, `name`, `description`, `website`) VALUES
@@ -426,7 +419,7 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `product`
+-- Contenu de la table `product`
 --
 
 INSERT INTO `product` (`id`, `reference`, `command`, `shop`) VALUES
@@ -454,7 +447,30 @@ INSERT INTO `product` (`id`, `reference`, `command`, `shop`) VALUES
 (22, 3, 25, 'test'),
 (23, 3, 25, 'test'),
 (24, 3, 25, 'test'),
-(25, 3, 25, 'test');
+(25, 3, 25, 'test'),
+(72, 3, 28, 'test'),
+(73, 3, 28, 'test'),
+(74, 3, 28, 'test'),
+(75, 3, 28, 'test'),
+(76, 3, 28, 'test'),
+(77, 3, 28, 'test'),
+(78, 3, 28, 'test'),
+(79, 3, 28, 'test'),
+(80, 3, 28, 'test'),
+(81, 3, 28, 'test'),
+(82, 3, 28, 'test'),
+(83, 3, 28, 'test'),
+(84, 3, 28, 'test'),
+(85, 3, 28, 'test'),
+(86, 3, 28, 'test'),
+(87, 3, 28, 'test'),
+(88, 3, 28, 'test'),
+(89, 3, 28, 'test'),
+(90, 3, 28, 'test'),
+(91, 3, 28, 'test'),
+(92, 3, 28, 'test'),
+(93, 3, 28, 'test'),
+(94, 3, 28, 'test');
 
 --
 -- Déclencheurs `product`
@@ -488,7 +504,7 @@ CREATE TABLE `promo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `promo`
+-- Contenu de la table `promo`
 --
 
 INSERT INTO `promo` (`reference`, `start_date`, `end_date`, `percentage`) VALUES
@@ -540,7 +556,7 @@ CREATE TABLE `reference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `reference`
+-- Contenu de la table `reference`
 --
 
 INSERT INTO `reference` (`id`, `category`, `partner`, `ref_product`, `name`, `description`, `price`, `add_date`) VALUES
@@ -577,7 +593,7 @@ CREATE TABLE `shop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `shop`
+-- Contenu de la table `shop`
 --
 
 INSERT INTO `shop` (`identifiant`, `street_number`, `street`, `city`, `zip_code`) VALUES
@@ -614,11 +630,11 @@ CREATE TABLE `stock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `stock`
+-- Contenu de la table `stock`
 --
 
 INSERT INTO `stock` (`shop`, `reference`, `quantity`) VALUES
-('test', 3, 25),
+('test', 3, 2),
 ('test', 4, 525),
 ('test', 5, 1);
 
@@ -647,7 +663,7 @@ $$
 DELIMITER ;
 
 --
--- Index pour les tables déchargées
+-- Index pour les tables exportées
 --
 
 --
@@ -752,53 +768,46 @@ ALTER TABLE `stock`
   ADD KEY `shop` (`shop`,`reference`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT pour les tables exportées
 --
 
 --
 -- AUTO_INCREMENT pour la table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
-
 --
 -- AUTO_INCREMENT pour la table `command`
 --
 ALTER TABLE `command`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT pour la table `partner`
 --
 ALTER TABLE `partner`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT pour la table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 --
 -- AUTO_INCREMENT pour la table `reference`
 --
 ALTER TABLE `reference`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
--- Contraintes pour les tables déchargées
+-- Contraintes pour les tables exportées
 --
 
 --
@@ -869,7 +878,6 @@ ALTER TABLE `reference`
 ALTER TABLE `stock`
   ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`shop`) REFERENCES `shop` (`identifiant`) ON DELETE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
