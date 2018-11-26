@@ -5,7 +5,7 @@ let search = (function(){
 
     function show()
     {
-        _result.style.display = null;
+        _result.style.display = "";
     }
 
     function hide()
@@ -56,22 +56,6 @@ let search = (function(){
             _result.addEventListener('mouseout', (e) =>{
                 _hover = false;
             })
-        },
-
-        category : function(input, result)
-        {
-            init(input, result);
-
-            _input.addEventListener('input', (e) =>{
-
-                let val = e.target.value;
-
-                fetch().then((response) =>{
-                    return response.text();
-                }).then((json) =>{
-                    console.log(json);
-                })
-            });
         }
     }
 })();

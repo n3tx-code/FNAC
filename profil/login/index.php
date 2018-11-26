@@ -105,7 +105,7 @@ else {
                                     <input type="text" class="form-control" id="nom" name="nom">
                                 </div>
                                 <div class="form-group">
-                                    <label for="prenom">Préom* :</label>
+                                    <label for="prenom">Prénom* :</label>
                                     <input type="text" class="form-control" id="prenom" name="prenom">
                                 </div>
                                 <div class="form-group">

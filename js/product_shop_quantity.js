@@ -4,36 +4,34 @@ document.querySelector('#shop_input[list="shop_list"]').addEventListener('input'
         let datalist_value = e.target.value;
         let ref = $("#ref_id").val();
         let url = "/includes/scripts/stock_ref_shop.php?s=" + datalist_value + "&r=" + ref;
-        $.get(url , function(data, status){
-            if(status === "success")
-            {
-                if(data !== "" && data > 0)
-                {
-                    $("#ref_no_stock").hide();
-                    $(".has-stock").show();
-                    $("#ref_quantity").attr("max", data);
-                    $("#ref_add_command").prop('disabled', false);
-                }
-                else
-                {
-                    $("#ref_no_stock").show();
-                    $(".has-stock").hide();
-                    $("#ref_quantity").attr("max", 0);
-                    $("#ref_add_command").prop('disabled', true);
 
-                }
+        fetch(url).then((response) =>{
+            return response.text();
+        }).then((data) =>{
+            if(data !== "" && data > 0)
+            {
+                document.getElementById("ref_no_stock").style.display = "none";
+                for(let el of document.getElementsByClassName("has-stock"))
+                    el.style.display = "";
+                document.getElementById("ref_quantity").setAttribute("max", data);
+                document.getElementById("ref_add_command").removeAttribute("disabled");
             }
             else
             {
-                console.log("error");
+                document.getElementById("ref_no_stock").style.display = "";
+                for(let el of document.getElementsByClassName("has-stock"))
+                    el.style.display = "none";
+                document.getElementById("ref_quantity").setAttribute("max", 0);
+                document.getElementById("ref_add_command").setAttribute("disabled", true);
             }
         });
     }
     else
     {
-        $("#ref_no_stock").show();
-        $(".has-stock").hide();
-        $("#ref_quantity").attr("max", 1);
-        $("#ref_add_command").prop('disabled', true);
+        document.getElementById("ref_no_stock").style.display = "";
+        for(let el of document.getElementsByClassName("has-stock"))
+            el.style.display = "none";
+        document.getElementById("ref_quantity").setAttribute("max", 1);
+        document.getElementById("ref_add_command").setAttribute("disabled", true);
     }
 });

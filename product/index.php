@@ -33,7 +33,6 @@ else {
         }
         else if(isset($_GET['comment']))
         {
-            echo "here";
             switch ($_GET['comment'])
             {
                 case "false":
