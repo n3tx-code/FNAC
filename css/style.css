@@ -269,3 +269,12 @@ a .dropbtn
     height: 50px;
     object-fit: contain;
 }
+.adresse-content
+{
+    padding: 50px;
+    border-radius: 5px;
+}
+.adress-choise
+{
+    visibility:hidden;
+}
