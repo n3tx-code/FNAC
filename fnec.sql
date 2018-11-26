@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
--- Client :  127.0.0.1
--- Généré le :  Jeu 22 Novembre 2018 à 18:01
--- Version du serveur :  5.7.14
--- Version de PHP :  7.0.10
+-- Hôte : 127.0.0.1
+-- Généré le :  lun. 26 nov. 2018 à 08:51
+-- Version du serveur :  10.1.31-MariaDB
+-- Version de PHP :  7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -37,7 +39,7 @@ CREATE TABLE `address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `address`
+-- Déchargement des données de la table `address`
 --
 
 INSERT INTO `address` (`id`, `client`, `number`, `street`, `city`, `zip_code`, `description`) VALUES
@@ -75,7 +77,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `category`
+-- Déchargement des données de la table `category`
 --
 
 INSERT INTO `category` (`id`, `name`, `parent`, `description`) VALUES
@@ -99,7 +101,7 @@ CREATE TABLE `client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `client`
+-- Déchargement des données de la table `client`
 --
 
 INSERT INTO `client` (`id`, `name`, `first_name`, `phone`, `mail`, `password`) VALUES
@@ -235,7 +237,7 @@ CREATE TABLE `command` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `command`
+-- Déchargement des données de la table `command`
 --
 
 INSERT INTO `command` (`id`, `client`, `add_date`, `price`) VALUES
@@ -314,7 +316,7 @@ CREATE TABLE `image` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `image`
+-- Déchargement des données de la table `image`
 --
 
 INSERT INTO `image` (`reference`, `src`) VALUES
@@ -336,7 +338,7 @@ CREATE TABLE `opinion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `opinion`
+-- Déchargement des données de la table `opinion`
 --
 
 INSERT INTO `opinion` (`client`, `reference`, `grade`, `comment`) VALUES
@@ -404,7 +406,7 @@ CREATE TABLE `partner` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `partner`
+-- Déchargement des données de la table `partner`
 --
 
 INSERT INTO `partner` (`id`, `name`, `description`, `website`) VALUES
@@ -424,7 +426,7 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `product`
+-- Déchargement des données de la table `product`
 --
 
 INSERT INTO `product` (`id`, `reference`, `command`, `shop`) VALUES
@@ -486,7 +488,7 @@ CREATE TABLE `promo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `promo`
+-- Déchargement des données de la table `promo`
 --
 
 INSERT INTO `promo` (`reference`, `start_date`, `end_date`, `percentage`) VALUES
@@ -538,7 +540,7 @@ CREATE TABLE `reference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `reference`
+-- Déchargement des données de la table `reference`
 --
 
 INSERT INTO `reference` (`id`, `category`, `partner`, `ref_product`, `name`, `description`, `price`, `add_date`) VALUES
@@ -575,7 +577,7 @@ CREATE TABLE `shop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `shop`
+-- Déchargement des données de la table `shop`
 --
 
 INSERT INTO `shop` (`identifiant`, `street_number`, `street`, `city`, `zip_code`) VALUES
@@ -612,7 +614,7 @@ CREATE TABLE `stock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `stock`
+-- Déchargement des données de la table `stock`
 --
 
 INSERT INTO `stock` (`shop`, `reference`, `quantity`) VALUES
@@ -645,7 +647,7 @@ $$
 DELIMITER ;
 
 --
--- Index pour les tables exportées
+-- Index pour les tables déchargées
 --
 
 --
@@ -662,14 +664,14 @@ ALTER TABLE `address`
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id`),
   ADD KEY `parent` (`parent`),
-  ADD KEY `id` (`id`,`name`);
+  ADD KEY `id` (`id`,`name`(255));
 
 --
 -- Index pour la table `client`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`,`mail`,`password`);
+  ADD KEY `id` (`id`,`mail`(255),`password`(255));
 
 --
 -- Index pour la table `command`
@@ -707,7 +709,7 @@ ALTER TABLE `opinion`
 --
 ALTER TABLE `partner`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`,`name`);
+  ADD KEY `id` (`id`,`name`(255));
 
 --
 -- Index pour la table `product`
@@ -732,14 +734,14 @@ ALTER TABLE `reference`
   ADD PRIMARY KEY (`id`),
   ADD KEY `category` (`category`),
   ADD KEY `partner` (`partner`),
-  ADD KEY `id` (`id`,`category`,`partner`,`ref_product`,`name`,`price`);
+  ADD KEY `id` (`id`,`category`,`partner`,`ref_product`(255),`name`(255),`price`);
 
 --
 -- Index pour la table `shop`
 --
 ALTER TABLE `shop`
   ADD PRIMARY KEY (`identifiant`),
-  ADD KEY `identifiant` (`identifiant`,`city`);
+  ADD KEY `identifiant` (`identifiant`,`city`(255));
 
 --
 -- Index pour la table `stock`
@@ -750,7 +752,7 @@ ALTER TABLE `stock`
   ADD KEY `shop` (`shop`,`reference`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
@@ -758,67 +760,74 @@ ALTER TABLE `stock`
 --
 ALTER TABLE `address`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT pour la table `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+
 --
 -- AUTO_INCREMENT pour la table `command`
 --
 ALTER TABLE `command`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
 --
 -- AUTO_INCREMENT pour la table `partner`
 --
 ALTER TABLE `partner`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT pour la table `product`
 --
 ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
 --
 -- AUTO_INCREMENT pour la table `reference`
 --
 ALTER TABLE `reference`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables déchargées
 --
 
 --
 -- Contraintes pour la table `address`
 --
 ALTER TABLE `address`
-  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`);
+  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `category`
 --
 ALTER TABLE `category`
-  ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `category` (`id`);
+  ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `category` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `command`
 --
 ALTER TABLE `command`
-  ADD CONSTRAINT `command_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`);
+  ADD CONSTRAINT `command_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `delivery`
 --
 ALTER TABLE `delivery`
-  ADD CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`command`) REFERENCES `command` (`id`),
-  ADD CONSTRAINT `delivery_ibfk_2` FOREIGN KEY (`command`) REFERENCES `command` (`id`),
-  ADD CONSTRAINT `delivery_ibfk_3` FOREIGN KEY (`command`) REFERENCES `command` (`id`),
-  ADD CONSTRAINT `delivery_ibfk_4` FOREIGN KEY (`command`) REFERENCES `command` (`id`),
-  ADD CONSTRAINT `delivery_ibfk_5` FOREIGN KEY (`address`) REFERENCES `address` (`id`);
+  ADD CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`command`) REFERENCES `command` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `delivery_ibfk_2` FOREIGN KEY (`command`) REFERENCES `command` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `delivery_ibfk_3` FOREIGN KEY (`command`) REFERENCES `command` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `delivery_ibfk_4` FOREIGN KEY (`command`) REFERENCES `command` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `delivery_ibfk_5` FOREIGN KEY (`address`) REFERENCES `address` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `image`
@@ -837,15 +846,15 @@ ALTER TABLE `opinion`
 -- Contraintes pour la table `product`
 --
 ALTER TABLE `product`
-  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`),
-  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`command`) REFERENCES `command` (`id`),
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`command`) REFERENCES `command` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `shop_ibfk_1` FOREIGN KEY (`shop`) REFERENCES `shop` (`identifiant`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `promo`
 --
 ALTER TABLE `promo`
-  ADD CONSTRAINT `promo_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`);
+  ADD CONSTRAINT `promo_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `reference`
@@ -858,8 +867,9 @@ ALTER TABLE `reference`
 -- Contraintes pour la table `stock`
 --
 ALTER TABLE `stock`
-  ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`),
-  ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`shop`) REFERENCES `shop` (`identifiant`);
+  ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`reference`) REFERENCES `reference` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`shop`) REFERENCES `shop` (`identifiant`) ON DELETE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

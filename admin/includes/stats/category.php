@@ -1,14 +1,14 @@
 <?php
 
-/*if(!isset($_POST['category']) OR empty($_POST['category']))
+if(!isset($_POST['category']) OR empty($_POST['category']))
 {
     header('location: ' . $_SERVER['HTTP_REFERER']);
-}*/
+}
 
 include ('../../../includes/bdd.php');
 include ("../../../includes/style.php");
 
-$category = 1; //$_POST['category'];
+$category = $_POST['category'];
 
 $sql = $sql = 'SELECT name FROM category WHERE id = "'.$category.'"';
 $req = $bdd->query($sql);

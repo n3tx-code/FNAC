@@ -1,14 +1,14 @@
 <?php
 
-/*if(!isset($_POST['shop']) OR empty($_POST['shop']))
+if(!isset($_POST['shop']) OR empty($_POST['shop']))
 {
     header('location: ' . $_SERVER['HTTP_REFERER']);
-}*/
+}
 
 include ('../../../includes/bdd.php');
 include ("../../../includes/style.php");
 
-$shop_id = 'ml'; //$_POST['shop'];
+$shop_id = $_POST['shop'];
 
 ?>
 <div style="text-align: center">
