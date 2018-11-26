@@ -31,6 +31,42 @@ else {
             </div>
             <?php
         }
+        else if(isset($_GET['comment']))
+        {
+            echo "here";
+            switch ($_GET['comment'])
+            {
+                case "false":
+
+                    ?>
+                    <div class="erreur">
+                        Votre commentaire est invalide !
+                    </div>
+                    <?php
+
+                    break;
+                case "true":
+
+                    ?>
+                    <div class="good">
+                        Commentaire ajouté avec succès !
+                    </div>
+                    <?php
+
+                    break;
+                case "allready":
+
+                    ?>
+                    <div class="erreur">
+                        Vous avez déjà ajouté un commentaire !
+                    </div>
+                    <?php
+
+                    break;
+                default:
+                    break;
+            }
+        }
         ?>
         <h2 class="text-center"><?= $reference['name'] ?></h2>
         <div class="row">

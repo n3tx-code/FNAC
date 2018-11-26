@@ -24,19 +24,7 @@ $req->execute(array(
     'price' => $price
 ));
 
-$sql = 'SELECT id FROM reference WHERE category = :category AND ref_product = :ref_product 
-AND name = :name AND description = :description AND price = :price';
-
-$req = $bdd->prepare($sql);
-$req->execute(array(
-    'category' => $category,
-    'ref_product' => $ref_product,
-    'name' => $name,
-    'description' => $description,
-    'price' => $price
-));
-
-$reference = $req->fetch()['id'];
+$reference = $bdd->lastInsertId();
 $ts = time();
 
 for($i = 0; $i < count($files['name']); $i++)

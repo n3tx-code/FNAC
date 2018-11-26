@@ -6,8 +6,10 @@ include('../includes/bdd.php');
 if(!isset($_POST['com_reference']) OR empty($_POST['com_reference'])
    OR !isset($_POST['com_grade']) OR empty($_POST['com_grade']) OR !isset($_POST['com_txt']) OR empty($_POST['com_txt']))
 {
-    //header('location: ' . $_SERVER['HTTP_REFERER']);
+    header('location: ' . $_SERVER['HTTP_REFERER']);
 }
+
+$referer = explode("&", $_SERVER['HTTP_REFERER'])[0];
 
 $client = $_SESSION['ID'];
 $reference = $_POST['com_reference'];
@@ -18,7 +20,7 @@ $req_user_allready_comment_ref = $bdd->prepare('SELECT COUNT(*) as total FROM op
 $req_user_allready_comment_ref->execute(array($_SESSION['ID']));
 if($req_user_allready_comment_ref->fetch()['total'] > 0)
 {
-    header('location: ' . $_SERVER['HTTP_REFERER'] . "?comment=allready");
+    header('location: ' . $referer . "&comment=allready");
 }
 
 $list = ["Abruti","Ahuri","Aigrefin","Anachorete","Analphabete","Andouille","Anus De Poulpe",
@@ -113,7 +115,7 @@ foreach ($list as $word)
 {
     if(strrpos(strtolower($comment), strtolower($word)) != false)
     {
-        header('location: ' . $_SERVER['HTTP_REFERER'] . "?comment=false");
+        header('location: ' . $referer . "&comment=false");
         exit();
     }
 }
@@ -126,5 +128,5 @@ $req->execute(array(
     'grade' => $grade,
     'comment' => $comment
 ));
-header('location: ' . $_SERVER['HTTP_REFERER'] . "?comment=true");
+header('location: ' . $referer . "&comment=true");
 ?>
