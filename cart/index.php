@@ -47,6 +47,7 @@ session_start();
                     <img src="<?= $ref_img['src'] ?>" class="img-responsive">
                 </div>
                 <div class="col-md-7">
+                    <a href="delete_product_cart.php?r=<?= $key ?>"><div style="float : right; font-size: 18px" ><i class="fas fa-times-circle"></i></div></a>
                     <h4><?= $ref_info['name'] ?></h4>
                     Quantité : <?= $_SESSION['cart'][$key]; ?><br>
                     Magasin : <?= $_SESSION['shop'][$key]; ?><br>
