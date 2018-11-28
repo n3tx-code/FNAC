@@ -76,7 +76,7 @@ session_start();
                         }
                         ?>
                         <img src="<?= $src ?>"
-                             class="img-responsive" style="max-height: 150px">
+                             class="img-responsive" style="max-height: 150px; margin: auto">
                         <a href="/product/?r=<?= $r['id'] ?>"><h3 class="text-center"><?= $r['name'] ?></h3></a>
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
