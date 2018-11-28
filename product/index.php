@@ -79,7 +79,7 @@ else {
                         while ($ref_img = $req_ref_img->fetch())
                         {
                             ?>
-                            <img class="mySlides" src="<?= $ref_img['src'] ?>" style="width:100%">
+                            <img class="mySlides" src="<?= $ref_img['src'] ?>" style="max-height: 250px; min-height: 250px">
                             <?php
                         }
                         ?>
