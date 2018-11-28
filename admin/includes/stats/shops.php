@@ -14,7 +14,7 @@ $shop_id = $_POST['shop'];
 <div style="text-align: center">
     <h3>Shop : <?= $shop_id ?></h3>
 </div>
-<div style="display: flex; text-align: center; justify-content: center; align-items: center; margin: 5px;">
+<div style="display: flex; text-align: center; justify-content: center; align-items: center;">
 <?php
 
 $map = array();
@@ -48,7 +48,7 @@ foreach($map as $key => $value)
 
     ?>
 
-    <a href="/product/?r=<?= $key?>">
+    <a href="/product/?r=<?= $key?>" style="margin: 5px;">
         <img style="max-height: 250px;" src="<?= $src ?>">
         <h4><?= $name ?> : <?= $value ?> sold.</h4>
     </a>

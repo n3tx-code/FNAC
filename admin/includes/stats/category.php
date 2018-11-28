@@ -34,6 +34,8 @@ while($res = $req->fetch())
     $map[$id] = $count;
 }
 
+$count = 0;
+
 foreach($map as $key => $value)
 {
     //get info
@@ -50,12 +52,22 @@ foreach($map as $key => $value)
 
     ?>
 
-    <a href="/product/?r=<?= $key?>">
+    <a href="/product/?r=<?= $key?>" style="margin: 5px;">
         <img style="max-height: 250px;" src="<?= $src ?>">
         <h4><?= $name ?> : <?= $value ?> sold.</h4>
     </a>
 
     <?php
+    $count++;
+
+    if($count == 3)
+    {
+        $count = 0;
+        ?>
+        </div>
+        <div style="display: flex; text-align: center; justify-content: center; align-items: center;">
+        <?php
+    }
 }
 
 ?>
