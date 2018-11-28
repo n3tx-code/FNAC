@@ -1,8 +1,0 @@
-Trigger :
-Commande validée -> Stock -1
-Commande validée -> Carte de fidélité + pts
-si suppression produit on supprime stock,  image
-
-Si magasin delete -> supprimer stock
-trigger référence -> stock : create ajouter référence dans stock avec default = 0
-
