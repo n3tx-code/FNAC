@@ -14,7 +14,7 @@ $shop_id = $_POST['shop'];
 <div style="text-align: center">
     <h3>Shop : <?= $shop_id ?></h3>
 </div>
-<div style="display: flex; text-align: center; justify-content: center; align-items: center;">
+<div style="display: flex; text-align: center; justify-content: center; align-items: center; margin: 5px;">
 <?php
 
 $map = array();
@@ -29,6 +29,8 @@ while($data = $stock->fetch())
     $count = $bdd->query($sql)->fetchColumn();
     $map[$reference] = $count;
 }
+
+$count = 0;
 
 foreach($map as $key => $value)
 {
@@ -52,6 +54,16 @@ foreach($map as $key => $value)
     </a>
 
     <?php
+    $count++;
+
+    if($count == 4)
+    {
+        $count = 0;
+        ?>
+        </div>
+        <div style="display: flex; text-align: center; justify-content: center; align-items: center;">
+        <?php
+    }
 }
 
 ?>

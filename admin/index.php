@@ -52,6 +52,7 @@ if(isset($_SESSION['ID']) AND $_SESSION['ID'] == 1)
             include("includes/templates/form_add_promo.php");
             include("includes/templates/form_add_shop.php");
             include("includes/templates/form_stock.php");
+            include("includes/templates/form_stats.php");
             ?>
         </div>
     </div>

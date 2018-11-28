@@ -10,7 +10,7 @@ include ("../../../includes/style.php");
 
 $category = $_POST['category'];
 
-$sql = $sql = 'SELECT name FROM category WHERE id = "'.$category.'"';
+$sql = 'SELECT name FROM category WHERE id = "'.$category.'"';
 $req = $bdd->query($sql);
 $categoryName = $req->fetch()['name'];
 
