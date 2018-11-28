@@ -18,7 +18,7 @@
             ?>
             <a href="product/?r=<?= $ref['id'] ?>">
                 <div class="col-md-3">
-                    <img src="<?= $ref_img['src'] ?>" class="img-responsive">
+                    <img src="<?= $ref_img['src'] ?>" class="img-responsive" style="min-height: 200px; max-height: 200px; margin: auto">
                     <h5 class="text-center"><?= $ref['name'] ?></h5>
                 </div>
             </a>

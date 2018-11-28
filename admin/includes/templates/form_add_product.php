@@ -58,7 +58,7 @@
         <label for="product_description">Description* :</label>
         <textarea class="form-control" rows="3" id="product_description" name="product_description" required></textarea>
     </div>
-    <div class=""form-group">
+    <div class="form-group">
         <label for="product_img">Images* :</label>
         <input type="file" accept="image/*" name="product_img[]" required multiple id="product_image">
     </div>

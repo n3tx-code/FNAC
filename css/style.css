@@ -183,6 +183,8 @@ a .dropbtn
 .reference
 {
     padding: 20px;
+    min-height: 365px;
+    max-height: 365px;
 }
 .reference:hover
 {

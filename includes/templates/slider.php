@@ -24,7 +24,7 @@ foreach ($last_5_ref as $ref)
         <div class="carousel-inner">
             <div class="item active">
                 <a href="product/?r=<?= $last_5_ref[0]['id'] ?>">
-                <img src="<?= $last_5_ref_img[0] ?>" style="max-height: 800px">
+                <img src="<?= $last_5_ref_img[0] ?>" style="max-height: 400px; min-height: 400px; margin: auto">
                 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                     <h2 style="color: white; background-color: rgba(94, 94, 94, 0.7); padding : 10px; border-radius : 5px"><?= $last_5_ref[0]['name'] ?></h2 style="color: white; background-color: rgba(94, 94, 94, 0.7)"; padding : 10px; border-radius : 5px ></div>
                 </a>
@@ -32,7 +32,7 @@ foreach ($last_5_ref as $ref)
 
             <div class="item">
                 <a href="product/?r=<?= $last_5_ref[1]['id'] ?>">
-                <img src="<?= $last_5_ref_img[1] ?>" style="max-height: 800px">
+                <img src="<?= $last_5_ref_img[1] ?>" style="max-height: 400px; min-height: 400px; margin: auto">
                 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                     <h2 style="color: white; background-color: rgba(94, 94, 94, 0.7); padding : 10px; border-radius : 5px"><?= $last_5_ref[1]['name'] ?></h2 style="color: white; background-color: rgba(94, 94, 94, 0.7)"; padding : 10px; border-radius : 5px ></div>
                 </a>
@@ -40,7 +40,7 @@ foreach ($last_5_ref as $ref)
 
             <div class="item">
                 <a href="product/?r=<?= $last_5_ref[2]['id'] ?>">
-                <img src="<?= $last_5_ref_img[2] ?>" style="max-height: 800px">
+                <img src="<?= $last_5_ref_img[2] ?>" style="max-height: 400px; min-height: 400px; margin: auto">
                 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                     <h2 style="color: white; background-color: rgba(94, 94, 94, 0.7); padding : 10px; border-radius : 5px "><?= $last_5_ref[2]['name'] ?></h2 style="color: white; background-color: rgba(94, 94, 94, 0.7)"; padding : 10px; border-radius : 5px ></div>
                 </a>
@@ -48,7 +48,7 @@ foreach ($last_5_ref as $ref)
 
             <div class="item">
                 <a href="product/?r=<?= $last_5_ref[3]['id'] ?>">
-                <img src="<?= $last_5_ref_img[3] ?>" style="max-height: 800px">
+                <img src="<?= $last_5_ref_img[3] ?>" style="max-height: 400px; min-height: 400px; margin: auto">
                 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                     <h2 style="color: white; background-color: rgba(94, 94, 94, 0.7); padding : 10px; border-radius : 5px"><?= $last_5_ref[3]['name'] ?></h2 style="color: white; background-color: rgba(94, 94, 94, 0.7)"; padding : 10px; border-radius : 5px ></div>
                 </a>
@@ -56,7 +56,7 @@ foreach ($last_5_ref as $ref)
 
             <div class="item">
                 <a href="product/?r=<?= $last_5_ref[4]['id'] ?>">
-                <img src="<?= $last_5_ref_img[4] ?>" style="max-height: 800px">
+                <img src="<?= $last_5_ref_img[4] ?>" style="max-height: 400px; min-height: 400px; margin: auto">
                 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                     <h2 style="color: white; background-color: rgba(94, 94, 94, 0.7); padding : 10px; border-radius : 5px"><?= $last_5_ref[4]['name'] ?></h2 style="color: white; background-color: rgba(94, 94, 94, 0.7)"; padding : 10px; border-radius : 5px ></div>
                 </a>
