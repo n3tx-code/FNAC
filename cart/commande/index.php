@@ -72,7 +72,7 @@ if(isset($_POST['adresse']))
         $req_del_command->execute(array(
             'id' => $command
         ));
-        //header('location: /cart/?error=true');
+        header('location: /cart/?error=true');
         exit();
     }
     $_SESSION['cart'] = array();

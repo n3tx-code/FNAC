@@ -31,10 +31,12 @@ for($i = 0; $i < count($files['name']); $i++)
 {
     $filename = $files['name'][$i];
     $tmp_name = $files['tmp_name'][$i];
+    $error = $files['error'][$i];
 
     $path = "/img/uploads/".$ts."_".$filename;
     $offset = "../../..";
-    if(is_array(getimagesize($tmp_name)) AND move_uploaded_file($tmp_name, $offset.$path))
+
+    if(!$error AND is_array(getimagesize($tmp_name)) AND move_uploaded_file($tmp_name, $offset.$path))
     {
         $sql = 'INSERT INTO image(reference, src) VALUES(:reference, :src)';
 
@@ -48,6 +50,8 @@ for($i = 0; $i < count($files['name']); $i++)
     {
         $bdd->rollBack();
         header("Location: /admin/?type=product&error=img&name=" . $filename);
+        /*print_r($files);
+        echo "error";*/
         exit();
     }
 }
@@ -55,5 +59,6 @@ for($i = 0; $i < count($files['name']); $i++)
 $bdd->commit();
 
 header("Location: /admin/?type=product&error=false&name=" . $name);
+//echo "ok/".$reference;
 
 ?>
