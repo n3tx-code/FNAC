@@ -54,7 +54,7 @@ foreach($map as $key => $value)
 
     <a href="/product/?r=<?= $key?>" style="margin: 5px;">
         <img style="max-height: 250px;" src="<?= $src ?>">
-        <h4><?= $name ?> : <?= $value ?> sold.</h4>
+        <h4><?= $name ?> : <?= $value ?> vente.</h4>
     </a>
 
     <?php
